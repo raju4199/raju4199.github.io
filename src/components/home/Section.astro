@@ -1,0 +1,32 @@
+---
+/**
+ * Shared wrapper for Home sections: anchor id, numbered mono label, heading.
+ * Heading copy comes from `sections.<id>` in src/data/site.yaml.
+ */
+import { site, type Section } from '@/lib/data';
+
+interface Props {
+  id: Section;
+  index?: number;
+  class?: string;
+}
+
+const { id, index, class: className } = Astro.props;
+const copy = site.sections[id] ?? { label: id, title: id[0].toUpperCase() + id.slice(1) };
+const number = index !== undefined ? String(index).padStart(2, '0') : undefined;
+---
+
+<section id={id} class:list={['reveal py-14 sm:py-20', className]} aria-labelledby={`${id}-title`}>
+  <div class="container-page">
+    <header class="mb-10 max-w-2xl sm:mb-12">
+      <p class="font-mono text-xs tracking-wider text-accent uppercase">
+        {number && <span class="text-muted">{`${number} // `}</span>}
+        {copy.label}
+      </p>
+      <h2 id={`${id}-title`} class="mt-3 text-3xl font-bold tracking-tight text-balance sm:text-4xl">{copy.title}</h2>
+      {copy.intro && <p class="mt-4 text-muted text-pretty">{copy.intro}</p>}
+      <slot name="header" />
+    </header>
+    <slot />
+  </div>
+</section>

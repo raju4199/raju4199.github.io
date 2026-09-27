@@ -1,0 +1,40 @@
+---
+/**
+ * Full-text search over blog posts with Pagefind.
+ * The index is generated after `astro build` (see the build script), so search
+ * works in `npm run build && npm run preview`, not in `npm run dev`.
+ */
+---
+
+<div id="search" class="min-h-12">
+  <p class="search-fallback hidden rounded-xl border border-dashed border-border px-4 py-3 font-mono text-xs text-muted">
+    Search is available in the production build (npm run build && npm run preview).
+  </p>
+</div>
+
+<script is:inline>
+  (() => {
+    const container = document.getElementById('search');
+    const showFallback = () => container.querySelector('.search-fallback')?.classList.remove('hidden');
+
+    const css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = '/pagefind/pagefind-ui.css';
+    document.head.appendChild(css);
+
+    const script = document.createElement('script');
+    script.src = '/pagefind/pagefind-ui.js';
+    script.onload = () => {
+      if (!window.PagefindUI) return showFallback();
+      new window.PagefindUI({
+        element: '#search',
+        showSubResults: true,
+        showImages: false,
+        resetStyles: false,
+        translations: { placeholder: 'grep -r "xss" ~/blog' },
+      });
+    };
+    script.onerror = showFallback;
+    document.head.appendChild(script);
+  })();
+</script>

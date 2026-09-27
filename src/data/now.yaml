@@ -1,0 +1,30 @@
+# ─────────────────────────────────────────────────────────────
+#  What you're doing now, what you focus on, and what's next
+#  icon: any Iconify name (lucide:*)
+# ─────────────────────────────────────────────────────────────
+
+updated: 2026-09-27
+
+now:
+  - icon: lucide:briefcase
+    title: Cyber Security Analyst at QOS Technology
+    text: Running offensive security assessments and researching new attack surface.
+  - icon: lucide:bug
+    title: Bug hunting
+    text: Hunting for vulnerabilities in web applications and APIs.
+  - icon: lucide:pen-line
+    title: Writing
+    text: Turning research and findings into write-ups on this blog and on Medium.
+
+focus:
+  - { icon: lucide:swords, title: Red Teaming, text: Realistic adversary emulation end-to-end. }
+  - { icon: lucide:globe, title: Web & API Security, text: Logic flaws and auth bugs that scanners miss. }
+  - { icon: lucide:smartphone, title: Mobile Security, text: Android app internals and runtime analysis. }
+  - { icon: lucide:flask-conical, title: Security Research, text: Studying how vulnerabilities emerge from the way systems are built. }
+
+# status: planned | in-progress | done
+next:
+  - { title: Advanced offensive certification, text: Level up with a hands-on offensive security certification., status: planned }
+  - { title: More published research, text: Publish follow-up research on web vulnerability patterns., status: planned }
+  - { title: Open-source tooling, text: Release tools that automate parts of my testing workflow., status: planned }
+  - { title: Hall of fame entries, text: Grow a track record of responsible disclosures., status: in-progress }

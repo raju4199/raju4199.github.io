@@ -1,0 +1,15 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import BlogHeader from '@/components/blog/BlogHeader.astro';
+import TagCloud from '@/components/blog/TagCloud.astro';
+import { getPosts, getTags } from '@/lib/blog';
+
+const tags = getTags(await getPosts());
+---
+
+<BaseLayout title="Tags" description="Browse blog posts by topic.">
+  <BlogHeader prompt="ls ~/blog/tags" title="Tags" description={`${tags.length} topics across the blog.`} />
+  <div class="container-page py-10">
+    <TagCloud tags={tags} />
+  </div>
+</BaseLayout>

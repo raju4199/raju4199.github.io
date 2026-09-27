@@ -1,0 +1,74 @@
+---
+import Icon from '@/components/Icon.astro';
+
+// Light on the left, System in the middle, Dark on the right.
+const options = [
+  { value: 'light', label: 'Light theme', icon: 'lucide:sun' },
+  { value: 'system', label: 'System theme', icon: 'lucide:monitor' },
+  { value: 'dark', label: 'Dark theme', icon: 'lucide:moon' },
+];
+---
+
+<div
+  class="theme-toggle relative inline-flex items-center rounded-full border border-border bg-surface p-0.5"
+  role="radiogroup"
+  aria-label="Color theme"
+>
+  <span
+    class="theme-toggle-thumb absolute top-0.5 left-0.5 size-7 rounded-full bg-accent-soft ring-1 ring-accent/40 transition-transform duration-300"
+    aria-hidden="true"></span>
+  {
+    options.map((o) => (
+      <button
+        type="button"
+        role="radio"
+        aria-checked="false"
+        aria-label={o.label}
+        title={o.label}
+        data-theme-value={o.value}
+        class="relative z-10 grid size-7 place-items-center rounded-full text-muted transition-colors hover:text-fg aria-checked:text-accent"
+      >
+        <Icon name={o.icon} class="size-3.5" />
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  const media = matchMedia('(prefers-color-scheme: dark)');
+
+  const current = () => document.documentElement.dataset.themePref || 'system';
+
+  function apply(pref: string) {
+    const root = document.documentElement;
+    root.classList.toggle('dark', pref === 'dark' || (pref === 'system' && media.matches));
+    root.dataset.themePref = pref;
+    for (const toggle of document.querySelectorAll<HTMLElement>('.theme-toggle')) {
+      toggle.querySelectorAll<HTMLButtonElement>('[data-theme-value]').forEach((b) => {
+        b.setAttribute('aria-checked', String(b.dataset.themeValue === pref));
+      });
+    }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-theme-value]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const pref = button.dataset.themeValue!;
+      try {
+        localStorage.setItem('theme', pref);
+      } catch {}
+      apply(pref);
+    });
+  });
+
+  media.addEventListener('change', () => {
+    if (current() === 'system') apply('system');
+  });
+
+  apply(current());
+</script>
+
+<style is:global>
+  /* Thumb position comes from data-theme-pref, which is set before first paint. */
+  :root[data-theme-pref='system'] .theme-toggle-thumb { transform: translateX(100%); }
+  :root[data-theme-pref='dark'] .theme-toggle-thumb { transform: translateX(200%); }
+</style>

@@ -1,0 +1,108 @@
+---
+import { achievements } from '@/lib/data';
+import Section from './Section.astro';
+import Icon from '@/components/Icon.astro';
+import SpotlightCard from '@/components/reactbits/SpotlightCard';
+
+interface Props {
+  index?: number;
+}
+
+const CATEGORIES = {
+  certification: 'Certifications',
+  hackathon: 'Hackathons',
+  research: 'Research',
+  award: 'Awards',
+} as const;
+
+const used = (Object.keys(CATEGORIES) as (keyof typeof CATEGORIES)[]).filter((c) =>
+  achievements.some((a) => a.category === c),
+);
+---
+
+<Section id="achievements" index={Astro.props.index}>
+  {
+    used.length > 1 && (
+      <div slot="header" class="mt-6 flex flex-wrap gap-2" role="group" aria-label="Filter achievements">
+        <button type="button" class="filter-chip" data-filter="all" aria-pressed="true">
+          All <span class="text-muted">{achievements.length}</span>
+        </button>
+        {used.map((c) => (
+          <button type="button" class="filter-chip" data-filter={c} aria-pressed="false">
+            {CATEGORIES[c]} <span class="text-muted">{achievements.filter((a) => a.category === c).length}</span>
+          </button>
+        ))}
+      </div>
+    )
+  }
+
+  <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="achievement-list">
+    {
+      achievements.map((item) => (
+        <li data-category={item.category}>
+          <SpotlightCard client:visible className="h-full">
+            <div class="flex items-start justify-between gap-3">
+              <span class="text-3xl leading-none" aria-hidden="true">
+                {item.icon}
+              </span>
+              <span class="font-mono text-xs text-muted">{item.year ?? ''}</span>
+            </div>
+            <p class="mt-5 font-mono text-[11px] tracking-wider text-accent uppercase">{CATEGORIES[item.category]}</p>
+            <h3 class="mt-1 text-lg font-semibold">
+              {item.link ? (
+                <a href={item.link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-accent">
+                  {item.title}
+                  <Icon name="lucide:arrow-up-right" class="size-4" />
+                </a>
+              ) : (
+                item.title
+              )}
+            </h3>
+            <p class="mt-1 text-sm text-muted">{item.event}</p>
+            {item.result && (
+              <p class="mt-4 inline-flex items-center gap-1.5 rounded-md bg-surface-2 px-2 py-1 font-mono text-xs">
+                <Icon name="lucide:check" class="size-3.5 text-accent" />
+                {item.result}
+              </p>
+            )}
+          </SpotlightCard>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<style>
+  .filter-chip {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .filter-chip:hover {
+    border-color: color-mix(in oklab, var(--accent) 50%, transparent);
+  }
+  .filter-chip[aria-pressed='true'] {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+</style>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('#achievements [data-filter]');
+  const items = document.querySelectorAll<HTMLElement>('#achievement-list > li');
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      const filter = chip.dataset.filter;
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+      items.forEach((item) => {
+        item.hidden = filter !== 'all' && item.dataset.category !== filter;
+      });
+    }),
+  );
+</script>

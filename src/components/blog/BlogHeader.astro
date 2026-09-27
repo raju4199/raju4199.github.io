@@ -1,0 +1,20 @@
+---
+/** Page header shared by the blog listing and tag pages. */
+interface Props {
+  prompt: string;
+  title: string;
+  description?: string;
+}
+
+const { prompt, title, description } = Astro.props;
+---
+
+<header class="relative overflow-hidden border-b border-border pt-32 pb-12">
+  <div class="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent)]"></div>
+  <div class="container-page">
+    <p class="font-mono text-sm text-muted"><span class="text-accent">$</span> {prompt}</p>
+    <h1 class="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">{title}</h1>
+    {description && <p class="mt-4 max-w-2xl text-lg text-muted">{description}</p>}
+    <slot />
+  </div>
+</header>

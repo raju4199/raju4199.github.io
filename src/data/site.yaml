@@ -1,0 +1,81 @@
+# ─────────────────────────────────────────────────────────────
+#  Site-wide settings
+#  Change anything here and the whole site updates on next build.
+# ─────────────────────────────────────────────────────────────
+
+title: Raju Ranjan
+description: >-
+  Offensive security researcher and bug hunter from Delhi, India. Red teaming,
+  web, Android, Wi-Fi and infrastructure pentesting, and research write-ups.
+locale: en-IN
+
+# Top navigation. `href` can be a page (/blog/) or a Home section (/#journey).
+nav:
+  - { label: About, href: /#about }
+  - { label: Journey, href: /#journey }
+  - { label: Achievements, href: /#achievements }
+  - { label: Blog, href: /blog/ }
+  - { label: Contact, href: /#contact }
+
+# Home page sections, rendered top to bottom in this order.
+# Remove a line to hide a section; reorder lines to reorder the page.
+# Available: hero, about, skills, journey, projects, achievements,
+#            now, focus, next, blog, contact
+home:
+  - hero
+  - about
+  - skills
+  - journey
+  - projects
+  - achievements
+  - now
+  - focus
+  - next
+  - blog
+  - contact
+
+# Heading copy for each Home section (label = small mono tag above the title).
+sections:
+  about:
+    label: about
+    title: Breaking things to understand how to protect them
+  skills:
+    label: skills
+    title: Attack surface I work across
+    intro: Offensive security across the full stack, from the browser and the phone to the airwaves and the server room.
+  journey:
+    label: journey
+    title: From the classroom to the red team
+    intro: Education, competitions, research and work, in the order they happened.
+  projects:
+    label: projects
+    title: Projects & write-ups
+    intro: Tools, research and write-ups I've built along the way.
+  achievements:
+    label: achievements
+    title: Certifications, hackathons & recognition
+  now:
+    label: now
+    title: What I'm doing right now
+  focus:
+    label: focus
+    title: Current focus & interests
+  next:
+    label: roadmap
+    title: What's next
+    intro: The goals I'm working towards.
+  blog:
+    label: blog
+    title: Latest from the blog
+  contact:
+    label: contact
+    title: Reach me
+
+blog:
+  title: Blog
+  description: Research notes, write-ups and lessons from offensive security work.
+  # Number of latest posts shown in the "blog" section on the Home page.
+  homeCount: 3
+
+footer:
+  note: Built with Astro · Hosted on GitHub Pages

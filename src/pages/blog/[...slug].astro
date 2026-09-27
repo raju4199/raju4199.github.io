@@ -1,0 +1,307 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+import { profile } from '@/lib/data';
+import { resolveAsset } from '@/lib/images';
+import { getPosts, formatDate, tagSlug, type Post } from '@/lib/blog';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { slug: post.slug },
+    // Posts are newest first: "newer" is the one before, "older" the one after.
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  post: Post;
+  newer?: Post;
+  older?: Post;
+}
+
+const { post, newer, older } = Astro.props;
+const { Content, headings } = await render(post.entry);
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+
+const avatar = await getImage({ src: resolveAsset(profile.photo), width: 96, height: 96, format: 'webp' });
+const url = new URL(`/blog/${post.slug}/`, Astro.site).toString();
+const shareText = encodeURIComponent(post.title);
+const shareUrl = encodeURIComponent(url);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.title,
+  description: post.description,
+  datePublished: post.date.toISOString(),
+  dateModified: (post.updated ?? post.date).toISOString(),
+  author: { '@type': 'Person', name: post.author, url: Astro.site?.toString() },
+  keywords: post.tags.join(', '),
+  mainEntityOfPage: url,
+  wordCount: post.words,
+};
+---
+
+<BaseLayout
+  title={post.title}
+  description={post.description}
+  image={post.cover}
+  imageAlt={post.coverAlt}
+  type="article"
+  published={post.date}
+  modified={post.updated}
+  tags={post.tags}
+  jsonLd={jsonLd}
+>
+  <article class="pt-28" data-pagefind-body>
+    <header class="container-page max-w-6xl">
+      <div class="lg:max-w-3xl">
+      <a
+        href="/blog/"
+        class="inline-flex items-center gap-2 font-mono text-sm text-muted transition-colors hover:text-accent"
+        data-pagefind-ignore
+      >
+        <Icon name="lucide:arrow-left" class="size-4" />
+        cd ..
+      </a>
+
+      {
+        post.tags.length > 0 && (
+          <ul class="mt-8 flex flex-wrap gap-2 font-mono text-xs" data-pagefind-ignore>
+            {post.tags.map((tag) => (
+              <li>
+                <a
+                  href={`/blog/tags/${tagSlug(tag)}/`}
+                  class="rounded-full border border-border px-2.5 py-1 text-accent transition-colors hover:border-accent/50"
+                  data-pagefind-filter="tag"
+                >
+                  #{tagSlug(tag)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+
+      <h1 class="mt-5 text-4xl font-extrabold tracking-tight text-balance sm:text-5xl" data-pagefind-meta="title">
+        {post.title}
+      </h1>
+      {post.description && <p class="mt-5 text-lg text-muted text-pretty">{post.description}</p>}
+
+      <div
+        class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-border py-4 text-sm text-muted"
+        data-pagefind-ignore
+      >
+        <span class="flex items-center gap-3">
+          <img src={avatar.src} alt="" width="36" height="36" class="size-9 rounded-full object-cover ring-1 ring-border" />
+          <span class="font-medium text-fg">{post.author}</span>
+        </span>
+        <span class="inline-flex items-center gap-1.5 font-mono text-xs">
+          <Icon name="lucide:calendar" class="size-3.5" />
+          <time datetime={post.date.toISOString()}>{formatDate(post.date)}</time>
+        </span>
+        {
+          post.updated && (
+            <span class="inline-flex items-center gap-1.5 font-mono text-xs">
+              <Icon name="lucide:refresh-cw" class="size-3.5" />
+              updated <time datetime={post.updated.toISOString()}>{formatDate(post.updated)}</time>
+            </span>
+          )
+        }
+        <span class="inline-flex items-center gap-1.5 font-mono text-xs">
+          <Icon name="lucide:clock" class="size-3.5" />
+          {post.minutes} min read · {post.words.toLocaleString()} words
+        </span>
+        {post.draft && <span class="rounded bg-amber-500/15 px-2 py-0.5 font-mono text-xs text-amber-500">draft</span>}
+      </div>
+
+      {
+        post.cover && (
+          <Image
+            src={post.cover}
+            alt={post.coverAlt ?? ''}
+            widths={[640, 960, 1280]}
+            sizes="(min-width: 896px) 896px, 100vw"
+            class="mt-10 w-full rounded-2xl border border-border"
+            loading="eager"
+          />
+        )
+      }
+      </div>
+    </header>
+
+    <div class="container-page mt-12 grid max-w-6xl gap-12 lg:grid-cols-[minmax(0,1fr)_14rem]">
+      <div class="prose-post prose prose-lg min-w-0 dark:prose-invert lg:max-w-3xl">
+        <Content />
+      </div>
+
+      {
+        toc.length > 1 && (
+          <aside class="order-first lg:order-none" data-pagefind-ignore>
+            <nav class="lg:sticky lg:top-24" aria-label="Table of contents">
+              <details class="card group p-4 lg:border-0 lg:bg-transparent lg:p-0" open>
+                <summary class="cursor-pointer list-none font-mono text-xs tracking-wider text-muted uppercase lg:pointer-events-none">
+                  <span class="text-accent">#</span> On this page
+                </summary>
+                <ol class="toc mt-3 space-y-2 border-l border-border text-sm">
+                  {toc.map((h) => (
+                    <li class:list={[h.depth === 3 && 'pl-3']}>
+                      <a
+                        href={`#${h.slug}`}
+                        data-toc={h.slug}
+                        class="-ml-px block border-l border-transparent pl-3 text-muted transition-colors hover:text-fg"
+                      >
+                        {h.text}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </details>
+            </nav>
+          </aside>
+        )
+      }
+    </div>
+
+    <footer class="container-page mt-16 max-w-6xl" data-pagefind-ignore>
+      <div class="lg:max-w-3xl">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-t border-border pt-8">
+        <p class="font-mono text-sm text-muted">Share this post</p>
+        <div class="flex items-center gap-2">
+          <a
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="grid size-10 place-items-center rounded-lg border border-border text-muted transition-colors hover:border-accent/50 hover:text-accent"
+            aria-label="Share on LinkedIn"
+          >
+            <Icon name="simple-icons:linkedin" class="size-4" />
+          </a>
+          <a
+            href={`https://x.com/intent/post?text=${shareText}&url=${shareUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="grid size-10 place-items-center rounded-lg border border-border text-muted transition-colors hover:border-accent/50 hover:text-accent"
+            aria-label="Share on X"
+          >
+            <Icon name="simple-icons:x" class="size-4" />
+          </a>
+          <button
+            type="button"
+            id="copy-link"
+            data-url={url}
+            class="grid size-10 place-items-center rounded-lg border border-border text-muted transition-colors hover:border-accent/50 hover:text-accent"
+            aria-label="Copy link"
+          >
+            <Icon name="lucide:link" class="size-4" />
+          </button>
+        </div>
+      </div>
+
+      <nav class="mt-10 grid gap-4 sm:grid-cols-2" aria-label="More posts">
+        {
+          older ? (
+            <a href={`/blog/${older.slug}/`} class="card group p-5 transition-colors hover:border-accent/50">
+              <span class="inline-flex items-center gap-1 font-mono text-xs text-muted">
+                <Icon name="lucide:arrow-left" class="size-3.5" /> Older
+              </span>
+              <span class="mt-2 block font-semibold group-hover:text-accent">{older.title}</span>
+            </a>
+          ) : (
+            <span />
+          )
+        }
+        {
+          newer && (
+            <a href={`/blog/${newer.slug}/`} class="card group p-5 text-right transition-colors hover:border-accent/50">
+              <span class="inline-flex items-center gap-1 font-mono text-xs text-muted">
+                Newer <Icon name="lucide:arrow-right" class="size-3.5" />
+              </span>
+              <span class="mt-2 block font-semibold group-hover:text-accent">{newer.title}</span>
+            </a>
+          )
+        }
+      </nav>
+      </div>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style is:global>
+  .toc a.is-active {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+</style>
+
+<script>
+  const article = document.querySelector('.prose-post');
+
+  // Clickable "#" anchor on every heading.
+  article?.querySelectorAll<HTMLElement>('h2[id], h3[id], h4[id]').forEach((heading) => {
+    const anchor = document.createElement('a');
+    anchor.href = `#${heading.id}`;
+    anchor.className = 'heading-anchor';
+    anchor.textContent = '#';
+    anchor.setAttribute('aria-label', `Link to "${heading.textContent}"`);
+    heading.appendChild(anchor);
+  });
+
+  // Language label + copy button on code blocks.
+  article?.querySelectorAll<HTMLPreElement>('pre.astro-code').forEach((pre) => {
+    const toolbar = document.createElement('div');
+    toolbar.className = 'code-toolbar';
+    const lang = document.createElement('span');
+    lang.className = 'lang';
+    lang.textContent = pre.dataset.language && pre.dataset.language !== 'plaintext' ? pre.dataset.language : 'text';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = 'copy';
+    button.setAttribute('aria-label', 'Copy code');
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(pre.querySelector('code')?.innerText ?? '');
+        button.textContent = 'copied ✓';
+      } catch {
+        button.textContent = 'failed';
+      }
+      setTimeout(() => (button.textContent = 'copy'), 1600);
+    });
+    toolbar.append(lang, button);
+    pre.prepend(toolbar);
+  });
+
+  // Highlight the section currently in view in the table of contents.
+  const links = new Map<string, HTMLElement>();
+  document.querySelectorAll<HTMLElement>('[data-toc]').forEach((a) => links.set(a.dataset.toc!, a));
+  if (links.size) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          links.forEach((a) => a.classList.remove('is-active'));
+          links.get(entry.target.id)?.classList.add('is-active');
+        }
+      },
+      { rootMargin: '-80px 0px -70% 0px' },
+    );
+    links.forEach((_, id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  }
+
+  // Copy post link.
+  const copy = document.getElementById('copy-link');
+  copy?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(copy.dataset.url ?? location.href);
+      copy.classList.add('text-accent');
+      setTimeout(() => copy.classList.remove('text-accent'), 1600);
+    } catch {}
+  });
+</script>

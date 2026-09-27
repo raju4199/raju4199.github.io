@@ -1,0 +1,48 @@
+# ─────────────────────────────────────────────────────────────
+#  Achievements & certifications: sorted by year, newest first
+#  category: certification | hackathon | research | award
+#  year and link are optional.
+# ─────────────────────────────────────────────────────────────
+
+- icon: "📜"
+  title: Published Researcher
+  event: ResearchGate · Web Vulnerabilities Modulation
+  result: Author
+  year: 2024
+  category: research
+  link: ""
+
+- icon: "🏅"
+  title: Academic Excellence Award
+  event: Chandigarh University
+  result: Gold Medal, most hackathon participations
+  category: award
+
+- icon: "🏆"
+  title: Grand Finalist
+  event: KAVACH National Cybersecurity Hackathon
+  result: Top 3 Teams
+  year: 2023
+  category: hackathon
+
+- icon: "🥇"
+  title: 5th Place
+  event: Intel oneAPI Hackathon × IIT Roorkee
+  result: Top 5
+  year: 2023
+  category: hackathon
+
+- icon: "🥉"
+  title: 2nd Runner-Up
+  event: Smart India Hackathon Qualifiers
+  result: Top 3
+  year: 2023
+  category: hackathon
+
+- icon: "🎖️"
+  title: CEH v12 Certified
+  event: EC-Council
+  result: Certified Ethical Hacker
+  year: 2023
+  category: certification
+  link: ""

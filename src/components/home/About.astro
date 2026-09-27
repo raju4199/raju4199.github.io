@@ -1,0 +1,18 @@
+---
+import { profile } from '@/lib/data';
+import Section from './Section.astro';
+import Stats from '@/components/react/Stats';
+
+interface Props {
+  index?: number;
+}
+---
+
+<Section id="about" index={Astro.props.index}>
+  <div class="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-14">
+    <div class="space-y-5 text-lg leading-relaxed text-muted">
+      {profile.about.map((p) => <p class="text-pretty">{p}</p>)}
+    </div>
+    {profile.stats.length > 0 && <Stats client:visible stats={profile.stats} />}
+  </div>
+</Section>

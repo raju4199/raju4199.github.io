@@ -1,0 +1,55 @@
+# ─────────────────────────────────────────────────────────────
+#  Who you are: hero, about, contact
+# ─────────────────────────────────────────────────────────────
+
+name: Raju Ranjan
+handle: raju4199
+# Shown one after another in the hero (first one is also your card title).
+roles:
+  - Offensive Security
+  - Researcher
+  - Bug Hunter
+location: Delhi, India
+
+# Image file inside src/assets/ (png, jpg or webp).
+photo: profile.png
+
+# One-liner under your name in the hero.
+tagline: >-
+  I explore the flaws behind how things are built, and research what it
+  takes to secure the environment around them.
+
+# About section: each item is a paragraph.
+about:
+  - >-
+    I'm an offensive security professional who looks at systems the way an
+    attacker would: exploring the flaws behind every build, from web and
+    Android applications to Wi-Fi networks and internal infrastructure.
+  - >-
+    Alongside hands-on testing I research the building blocks defenders rely
+    on, and turn what I learn into practical guidance for securing an
+    environment. I'm a CEH v12 certified ethical hacker, a published
+    researcher and a regular at national-level hackathons.
+
+# Headline numbers in the About section.
+stats:
+  - { value: 2, suffix: "+", label: Years in cybersecurity }
+  - { value: 3, suffix: "", label: National hackathon finals & podiums }
+  - { value: 1, suffix: "", label: Published research paper }
+  - { value: 1, suffix: "", label: Gold medal for academic excellence }
+
+# Contact section. Leave `url` empty to hide a link.
+# Icons: any name from https://icon-sets.iconify.design (simple-icons:* or lucide:*).
+contact:
+  heading: Let's talk security
+  text: >-
+    Whether it's a pentest, a research collaboration, a bug bounty find or
+    just a conversation about offensive security, my inbox is open.
+  email: rajuaryan033@gmail.com
+  socials:
+    - { label: GitHub, handle: raju4199, url: "https://github.com/raju4199", icon: "simple-icons:github" }
+    - { label: LinkedIn, handle: rajuranjann, url: "https://www.linkedin.com/in/rajuranjann/", icon: "simple-icons:linkedin" }
+    - { label: Hack The Box, handle: HTB profile, url: "https://profile.hackthebox.com/profile/019dc86e-029e-722d-af64-09ab5d5aeb0d", icon: "simple-icons:hackthebox" }
+    - { label: Medium, handle: "@Makishima_ShogO", url: "https://medium.com/@Makishima_ShogO", icon: "simple-icons:medium" }
+    - { label: TryHackMe, handle: "", url: "", icon: "simple-icons:tryhackme" }
+    - { label: X, handle: "", url: "", icon: "simple-icons:x" }

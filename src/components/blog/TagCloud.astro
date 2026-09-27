@@ -1,0 +1,41 @@
+---
+interface Props {
+  tags: { name: string; slug: string; count: number }[];
+  active?: string;
+}
+
+const { tags, active } = Astro.props;
+---
+
+<ul class="flex flex-wrap gap-2">
+  <li>
+    <a
+      href="/blog/"
+      class:list={[
+        'inline-flex rounded-full border px-3 py-1 font-mono text-xs transition-colors',
+        !active ? 'border-accent bg-accent-soft text-accent' : 'border-border text-muted hover:border-accent/50 hover:text-fg',
+      ]}
+    >
+      all
+    </a>
+  </li>
+  {
+    tags.map((tag) => (
+      <li>
+        <a
+          href={`/blog/tags/${tag.slug}/`}
+          aria-current={active === tag.slug ? 'page' : undefined}
+          class:list={[
+            'inline-flex gap-1.5 rounded-full border px-3 py-1 font-mono text-xs transition-colors',
+            active === tag.slug
+              ? 'border-accent bg-accent-soft text-accent'
+              : 'border-border text-muted hover:border-accent/50 hover:text-fg',
+          ]}
+        >
+          #{tag.slug}
+          <span class="opacity-60">{tag.count}</span>
+        </a>
+      </li>
+    ))
+  }
+</ul>

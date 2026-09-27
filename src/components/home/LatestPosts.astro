@@ -1,0 +1,29 @@
+---
+import { site } from '@/lib/data';
+import { getPosts } from '@/lib/blog';
+import Section from './Section.astro';
+import Icon from '@/components/Icon.astro';
+import PostCard from '@/components/blog/PostCard.astro';
+
+interface Props {
+  index?: number;
+}
+
+const posts = (await getPosts()).slice(0, site.blog.homeCount);
+---
+
+{
+  posts.length > 0 && (
+    <Section id="blog" index={Astro.props.index}>
+      <div class="grid gap-4 md:grid-cols-3">
+        {posts.map((post) => (
+          <PostCard post={post} />
+        ))}
+      </div>
+      <a href="/blog/" class="mt-8 inline-flex items-center gap-2 font-mono text-sm text-accent hover:underline">
+        cd ~/blog
+        <Icon name="lucide:arrow-right" class="size-4" />
+      </a>
+    </Section>
+  )
+}

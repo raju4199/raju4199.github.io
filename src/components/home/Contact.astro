@@ -1,0 +1,94 @@
+---
+import { profile } from '@/lib/data';
+import Section from './Section.astro';
+import Icon from '@/components/Icon.astro';
+
+interface Props {
+  index?: number;
+}
+
+const { contact } = profile;
+const socials = contact.socials.filter((s) => s.url);
+---
+
+<Section id="contact" index={Astro.props.index}>
+  <div class="card relative overflow-hidden p-6 sm:p-10">
+    <div class="bg-grid pointer-events-none absolute inset-0 opacity-50 [mask-image:radial-gradient(ellipse_at_top_right,black,transparent_70%)]"></div>
+    <div class="relative grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+      <div>
+        <h3 class="text-2xl font-bold tracking-tight sm:text-3xl">{contact.heading}</h3>
+        <p class="mt-4 max-w-md text-muted">{contact.text}</p>
+        {
+          contact.email && (
+            <div class="mt-8 flex flex-wrap items-center gap-2">
+              <a
+                href={`mailto:${contact.email}`}
+                class="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-accent-fg transition hover:brightness-110"
+              >
+                <Icon name="lucide:mail" class="size-4" />
+                {contact.email}
+              </a>
+              <button
+                type="button"
+                id="copy-email"
+                data-email={contact.email}
+                class="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-4 py-3 font-mono text-xs text-muted transition hover:border-accent/50 hover:text-accent"
+              >
+                <span class="copy-idle inline-flex items-center gap-2">
+                  <Icon name="lucide:copy" class="size-4" /> copy
+                </span>
+                <span class="copy-done hidden items-center gap-2 text-accent">
+                  <Icon name="lucide:check" class="size-4" /> copied
+                </span>
+              </button>
+            </div>
+          )
+        }
+      </div>
+
+      <ul class="grid gap-2 sm:grid-cols-2">
+        {
+          socials.map((s) => (
+            <li>
+              <a
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer me"
+                class="group flex items-center gap-3 rounded-xl border border-border bg-bg/60 p-4 transition-colors hover:border-accent/50"
+              >
+                <span class="grid size-10 shrink-0 place-items-center rounded-lg bg-surface-2 text-fg transition-colors group-hover:text-accent">
+                  <Icon name={s.icon} class="size-5" />
+                </span>
+                <span class="min-w-0">
+                  <span class="block text-sm font-semibold">{s.label}</span>
+                  {s.handle && <span class="block truncate font-mono text-xs text-muted">{s.handle}</span>}
+                </span>
+                <Icon
+                  name="lucide:arrow-up-right"
+                  class="ml-auto size-4 shrink-0 text-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent"
+                />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</Section>
+
+<script>
+  const button = document.getElementById('copy-email');
+  button?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(button.dataset.email ?? '');
+      button.querySelector('.copy-idle')?.classList.replace('inline-flex', 'hidden');
+      button.querySelector('.copy-done')?.classList.replace('hidden', 'inline-flex');
+      setTimeout(() => {
+        button.querySelector('.copy-idle')?.classList.replace('hidden', 'inline-flex');
+        button.querySelector('.copy-done')?.classList.replace('inline-flex', 'hidden');
+      }, 1800);
+    } catch {
+      window.location.href = `mailto:${button.dataset.email}`;
+    }
+  });
+</script>

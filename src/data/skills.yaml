@@ -1,0 +1,36 @@
+# ─────────────────────────────────────────────────────────────
+#  Skills: one card per domain
+#  icon:  any Iconify name (lucide:* works best here)
+#  areas: short keywords shown as chips
+#  tools: optional, shown as a separate chip row when present
+# ─────────────────────────────────────────────────────────────
+
+- name: Red Teaming
+  icon: lucide:swords
+  description: Adversary emulation that tests people, process and technology together, from initial access to objective.
+  areas: [Adversary emulation, Initial access, Lateral movement, Social engineering]
+  tools: []
+
+- name: Web Application Testing
+  icon: lucide:globe
+  description: Finding and proving vulnerabilities in web apps and APIs, beyond what scanners catch.
+  areas: [OWASP Top 10, Auth & session flaws, Business logic, API security]
+  tools: []
+
+- name: Android Application Testing
+  icon: lucide:smartphone
+  description: Static and dynamic analysis of Android apps and the backends they talk to.
+  areas: [Static analysis, Dynamic instrumentation, Insecure storage, SSL pinning bypass]
+  tools: []
+
+- name: Wi-Fi Pentesting
+  icon: lucide:wifi
+  description: Assessing wireless networks for weak configurations, rogue access and credential exposure.
+  areas: [WPA/WPA2 attacks, Rogue access points, Handshake capture, Wireless recon]
+  tools: []
+
+- name: Infrastructure Pentesting
+  icon: lucide:server
+  description: Internal and external network assessments, from reconnaissance to privilege escalation.
+  areas: [Network recon, Service exploitation, Privilege escalation, Active Directory]
+  tools: []

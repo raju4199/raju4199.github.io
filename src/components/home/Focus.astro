@@ -1,0 +1,23 @@
+---
+import { now } from '@/lib/data';
+import Section from './Section.astro';
+import Icon from '@/components/Icon.astro';
+
+interface Props {
+  index?: number;
+}
+---
+
+<Section id="focus" index={Astro.props.index}>
+  <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      now.focus.map((item) => (
+        <li class="card group p-6 transition-colors hover:border-accent/40">
+          <Icon name={item.icon} class="size-6 text-accent transition-transform group-hover:scale-110" />
+          <h3 class="mt-4 font-semibold">{item.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">{item.text}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Section>

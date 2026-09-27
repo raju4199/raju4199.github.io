@@ -1,0 +1,43 @@
+---
+/**
+ * Home page. Sections and their order come from `home:` in src/data/site.yaml.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { site, type Section } from '@/lib/data';
+import Hero from '@/components/home/Hero.astro';
+import About from '@/components/home/About.astro';
+import Skills from '@/components/home/Skills.astro';
+import Journey from '@/components/home/Journey.astro';
+import Projects from '@/components/home/Projects.astro';
+import Achievements from '@/components/home/Achievements.astro';
+import Now from '@/components/home/Now.astro';
+import Focus from '@/components/home/Focus.astro';
+import Next from '@/components/home/Next.astro';
+import LatestPosts from '@/components/home/LatestPosts.astro';
+import Contact from '@/components/home/Contact.astro';
+
+const components: Record<Section, (props: { index?: number }) => unknown> = {
+  hero: Hero,
+  about: About,
+  skills: Skills,
+  journey: Journey,
+  projects: Projects,
+  achievements: Achievements,
+  now: Now,
+  focus: Focus,
+  next: Next,
+  blog: LatestPosts,
+  contact: Contact,
+};
+
+// Number the sections after the hero: 01, 02, ...
+const sections = site.home.map((id) => ({
+  id,
+  Component: components[id],
+  index: id === 'hero' ? undefined : site.home.filter((s) => s !== 'hero').indexOf(id) + 1,
+}));
+---
+
+<BaseLayout>
+  {sections.map(({ Component, index }) => <Component index={index} />)}
+</BaseLayout>

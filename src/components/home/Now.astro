@@ -1,0 +1,45 @@
+---
+import { now } from '@/lib/data';
+import { formatDate } from '@/lib/blog';
+import Section from './Section.astro';
+import Icon from '@/components/Icon.astro';
+
+interface Props {
+  index?: number;
+}
+---
+
+<Section id="now" index={Astro.props.index}>
+  {
+    now.updated && (
+      <p slot="header" class="mt-3 font-mono text-xs text-muted">
+        last updated: <time datetime={now.updated.toISOString()}>{formatDate(now.updated)}</time>
+      </p>
+    )
+  }
+  <div class="card overflow-hidden">
+    <div class="flex items-center gap-2 border-b border-border bg-surface-2 px-4 py-2.5 font-mono text-xs text-muted">
+      <span class="flex gap-1.5" aria-hidden="true">
+        <span class="size-2.5 rounded-full bg-[#ff5f57]"></span>
+        <span class="size-2.5 rounded-full bg-[#febc2e]"></span>
+        <span class="size-2.5 rounded-full bg-[#28c840]"></span>
+      </span>
+      <span class="ml-2">~/now — status</span>
+    </div>
+    <ul class="divide-y divide-border">
+      {
+        now.now.map((item) => (
+          <li class="flex gap-4 p-5 sm:p-6">
+            <span class="grid size-10 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent">
+              <Icon name={item.icon} class="size-5" />
+            </span>
+            <div>
+              <h3 class="font-semibold">{item.title}</h3>
+              <p class="mt-1 text-sm text-muted">{item.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Section>

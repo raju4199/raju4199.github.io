@@ -1,0 +1,51 @@
+# ─────────────────────────────────────────────────────────────
+#  Journey timeline: sorted automatically by `start`, oldest first
+#  start / end: "YYYY" or "YYYY-MM". Use end: present for ongoing roles.
+#  type: education | project | achievement | research | certification | work
+#  logo: optional image in src/assets/ (e.g. logos/company.svg), shown in the card
+# ─────────────────────────────────────────────────────────────
+
+- type: education
+  start: "2020"
+  end: "2024"
+  title: B.E. Computer Science & Engineering
+  org: Chandigarh University
+  description: >-
+    Specialisation in Information Security. Received the Academic Excellence
+    Award (Gold Medal) for the most hackathon participations.
+
+- type: certification
+  start: "2023"
+  title: Certified Ethical Hacker (CEH v12)
+  org: EC-Council
+  description: Certified in the methodology and tooling of ethical hacking.
+
+- type: achievement
+  start: "2023"
+  title: National hackathon circuit
+  org: KAVACH · Intel oneAPI × IIT Roorkee · Smart India Hackathon
+  description: >-
+    Grand Finalist (top 3) at KAVACH, 5th place at Intel oneAPI × IIT Roorkee,
+    and 2nd Runner-Up at the Smart India Hackathon qualifiers.
+
+- type: research
+  start: "2024"
+  title: Published research
+  org: ResearchGate
+  description: Authored "Web Vulnerabilities Modulation".
+
+- type: work
+  start: "2024-03"
+  end: "2024-10"
+  title: Cyber Security Trainee
+  org: Buzzpenny Systems LLP
+  logo: logos/buzzpenny.png
+  description: Hands-on training across web, network and application security assessments.
+
+- type: work
+  start: "2025-04"
+  end: present
+  title: Cyber Security Analyst
+  org: QOS Technology Private Limited
+  logo: logos/qos.svg
+  description: Offensive security assessments and security research.

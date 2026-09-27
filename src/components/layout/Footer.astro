@@ -1,0 +1,46 @@
+---
+import { site, profile } from '@/lib/data';
+import Icon from '@/components/Icon.astro';
+
+const socials = profile.contact.socials.filter((s) => s.url);
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-border">
+  <div class="container-page flex flex-col items-center justify-between gap-6 py-10 sm:flex-row">
+    <div class="text-center sm:text-left">
+      <p class="font-mono text-sm">
+        <span class="text-accent">$</span> echo "© {year} {profile.name}"
+      </p>
+      {site.footer.note && <p class="mt-1 text-xs text-muted">{site.footer.note}</p>}
+    </div>
+    <ul class="flex items-center gap-1">
+      {
+        socials.map((s) => (
+          <li>
+            <a
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer me"
+              class="grid size-9 place-items-center rounded-lg text-muted transition-colors hover:bg-surface-2 hover:text-accent"
+              aria-label={s.label}
+              title={s.label}
+            >
+              <Icon name={s.icon} class="size-4" />
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a
+          href="/rss.xml"
+          class="grid size-9 place-items-center rounded-lg text-muted transition-colors hover:bg-surface-2 hover:text-accent"
+          aria-label="RSS feed"
+          title="RSS feed"
+        >
+          <Icon name="lucide:rss" class="size-4" />
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>

@@ -1,0 +1,36 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import BlogHeader from '@/components/blog/BlogHeader.astro';
+import PostCard from '@/components/blog/PostCard.astro';
+import TagCloud from '@/components/blog/TagCloud.astro';
+import Search from '@/components/blog/Search.astro';
+import { site } from '@/lib/data';
+import { getPosts, getTags } from '@/lib/blog';
+
+const posts = await getPosts();
+const tags = getTags(posts);
+---
+
+<BaseLayout title={site.blog.title} description={site.blog.description}>
+  <BlogHeader prompt="ls -t ~/blog" title={site.blog.title} description={site.blog.description}>
+    <div class="mt-8 max-w-2xl">
+      <Search />
+    </div>
+  </BlogHeader>
+
+  <div class="container-page py-10">
+    {tags.length > 0 && <TagCloud tags={tags} />}
+
+    {
+      posts.length > 0 ? (
+        <div class="mt-6">
+          {posts.map((post) => (
+            <PostCard post={post} variant="row" />
+          ))}
+        </div>
+      ) : (
+        <p class="mt-10 font-mono text-muted">No posts yet. Add a Markdown file to src/content/blog/.</p>
+      )
+    }
+  </div>
+</BaseLayout>

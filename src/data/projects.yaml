@@ -1,0 +1,24 @@
+# ─────────────────────────────────────────────────────────────
+#  Projects & write-ups
+#  status: shipped | in-progress | coming-soon
+#  links: any of github / demo / writeup (leave out what you don't have)
+#  PLACEHOLDERS below: replace them with your real projects.
+# ─────────────────────────────────────────────────────────────
+
+- title: Project One
+  description: A short, one or two line summary of what this project does and why it matters.
+  tags: [Web Security, Python]
+  status: coming-soon
+  links: {}
+
+- title: Project Two
+  description: A short, one or two line summary of what this project does and why it matters.
+  tags: [Android, Research]
+  status: coming-soon
+  links: {}
+
+- title: Project Three
+  description: A short, one or two line summary of what this project does and why it matters.
+  tags: [Tooling, Automation]
+  status: coming-soon
+  links: {}

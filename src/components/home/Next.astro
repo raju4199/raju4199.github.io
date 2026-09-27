@@ -1,0 +1,35 @@
+---
+import { now } from '@/lib/data';
+import Section from './Section.astro';
+
+interface Props {
+  index?: number;
+}
+
+const STATUS = {
+  planned: { mark: '[ ]', label: 'Planned', class: 'text-muted' },
+  'in-progress': { mark: '[~]', label: 'In progress', class: 'text-accent-2' },
+  done: { mark: '[x]', label: 'Done', class: 'text-accent' },
+} as const;
+---
+
+<Section id="next" index={Astro.props.index}>
+  <ol class="grid gap-4 md:grid-cols-2">
+    {
+      now.next.map((goal, i) => (
+        <li class="card relative flex gap-4 p-6">
+          <span class="font-mono text-sm text-muted">{String(i + 1).padStart(2, '0')}</span>
+          <div class="flex-1">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h3 class="font-semibold">{goal.title}</h3>
+              <span class:list={['font-mono text-xs', STATUS[goal.status].class]}>
+                {STATUS[goal.status].mark} {STATUS[goal.status].label}
+              </span>
+            </div>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{goal.text}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</Section>

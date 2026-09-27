@@ -1,0 +1,33 @@
+---
+/**
+ * Renders any Iconify icon at build time as inline SVG (no client JS).
+ * Usage: <Icon name="lucide:shield" class="size-5" />
+ * Sets available: lucide:*, simple-icons:*
+ */
+import { getIconData, iconToSVG, iconToHTML, replaceIDs } from '@iconify/utils';
+import lucide from '@iconify-json/lucide/icons.json';
+import simpleIcons from '@iconify-json/simple-icons/icons.json';
+import type { IconifyJSON } from '@iconify/types';
+
+interface Props {
+  name: string;
+  class?: string;
+  label?: string;
+}
+
+const sets: Record<string, IconifyJSON> = {
+  lucide: lucide as IconifyJSON,
+  'simple-icons': simpleIcons as IconifyJSON,
+};
+
+const { name, class: className = 'size-5', label } = Astro.props;
+const [prefix, icon] = name.split(':');
+const data = sets[prefix] && getIconData(sets[prefix], icon);
+if (!data) throw new Error(`Unknown icon "${name}". Use lucide:* or simple-icons:* names.`);
+
+const { attributes, body } = iconToSVG(data, { height: 'auto' });
+const a11y = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"';
+const svg = iconToHTML(replaceIDs(body), { ...attributes, class: className }).replace('<svg', `<svg ${a11y}`);
+---
+
+<Fragment set:html={svg} />
