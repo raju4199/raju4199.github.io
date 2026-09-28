@@ -19,17 +19,42 @@ tagline: >-
   I explore the flaws behind how things are built, and research what it
   takes to secure the environment around them.
 
-# About section: each item is a paragraph.
+# About section.
+#   lede:    the opening line; wrap words in **double asterisks** to highlight
+#   pillars: up to three cards, each with an icon (lucide:*), title and text
+#   more:    paragraphs folded under "The longer version"
 about:
-  - >-
-    I'm an offensive security professional who looks at systems the way an
-    attacker would: exploring the flaws behind every build, from web and
-    Android applications to Wi-Fi networks and internal infrastructure.
-  - >-
-    Alongside hands-on testing I research the building blocks defenders rely
-    on, and turn what I learn into practical guidance for securing an
-    environment. I'm a CEH v12 certified ethical hacker, a published
-    researcher and a regular at national-level hackathons.
+  lede: >-
+    I look at systems the way an attacker would, so teams can see
+    **how they break before someone else does**.
+  pillars:
+    - icon: lucide:crosshair
+      title: An attacker's-eye view
+      text: >-
+        Web and Android applications, Wi-Fi networks and internal
+        infrastructure, tested the way a real adversary would approach them:
+        from recon to proof of impact.
+    - icon: lucide:flask-conical
+      title: Research defenders can use
+      text: >-
+        I study the building blocks defenders rely on and turn what I find
+        into practical guidance. Author of the published paper "Web
+        Vulnerabilities Modulation".
+    - icon: lucide:trophy
+      title: Proven under pressure
+      text: >-
+        CEH v12 certified, Grand Finalist at the KAVACH national
+        cybersecurity hackathon, and a Gold Medal for academic excellence.
+  more:
+    - >-
+      I studied Computer Science with a specialisation in Information
+      Security at Chandigarh University, where I spent more weekends at
+      hackathons than anywhere else, and earned a gold medal for the most
+      participations.
+    - >-
+      After training at Buzzpenny Systems across web, network and
+      application assessments, I joined QOS Technology as a Cyber Security
+      Analyst, where I run offensive assessments and security research.
 
 # Headline numbers in the About section.
 stats:

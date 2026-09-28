@@ -17,6 +17,11 @@
   --accent-soft: rgb(15 138 71 / 0.1);
   --accent-2: #0b7f99;
   --glow: rgb(15 138 71 / 0.18);
+  /* Contour-map background (TopoBackdrop). */
+  --topo-low: #9fd3b5;
+  --topo-mid: #3fae74;
+  --topo-high: #0b7f99;
+  --topo-opacity: 0.35;
   color-scheme: light;
 }
 
@@ -32,6 +37,10 @@
   --accent-soft: rgb(62 224 138 / 0.1);
   --accent-2: #3cc8e6;
   --glow: rgb(62 224 138 / 0.22);
+  --topo-low: #16432c;
+  --topo-mid: #2fae6c;
+  --topo-high: #3cc8e6;
+  --topo-opacity: 0.4;
   color-scheme: dark;
 }
 
@@ -117,6 +126,210 @@
   transform: none;
 }
 .no-js .reveal { opacity: 1; transform: none; }
+
+/* Children of .stagger follow their section in, one after another. */
+.reveal .stagger > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(150ms + var(--i, 0) * 120ms);
+}
+.reveal.is-visible .stagger > *,
+.no-js .reveal .stagger > * { opacity: 1; transform: none; }
+
+/* ── Hero intro motion ────────────────────────────────────── */
+/* Words that sharpen out of a blur, one after another. */
+.blur-in > span { display: inline-block; }
+.blur-in > * {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(-0.4em);
+  animation: blur-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--i, 0) * 110ms);
+}
+@keyframes blur-in { to { opacity: 1; filter: blur(0); transform: none; } }
+.blur-in > .intro-done { opacity: 1; filter: none; transform: none; animation: none; }
+
+/* Name letters rising into place. */
+.rise-in .ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.6em) rotate(6deg);
+  animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(350ms + var(--i, 0) * 45ms);
+}
+@keyframes rise-in { to { opacity: 1; transform: none; } }
+
+/* Magic name: --t (0..1) is how close the pointer is, set by the hero script. */
+.rise-in .ch {
+  --t: 0;
+  color: color-mix(in oklab, var(--accent) calc(var(--t) * 100%), var(--fg));
+  filter: drop-shadow(0 0 calc(var(--t) * 22px) color-mix(in oklab, var(--accent) calc(var(--t) * 90%), transparent));
+  transition: translate 0.25s ease-out, scale 0.25s ease-out, rotate 0.25s ease-out, color 0.25s, filter 0.25s;
+}
+.rise-in .ch-accent {
+  color: color-mix(in oklab, var(--accent-2) calc(var(--t) * 100%), var(--accent));
+  filter: drop-shadow(0 0 calc(var(--t) * 22px) color-mix(in oklab, var(--accent-2) calc(var(--t) * 90%), transparent));
+}
+
+/* Sparkles left behind by the pointer over the name. */
+.spark {
+  position: absolute;
+  z-index: 70;
+  pointer-events: none;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent);
+  translate: -50% -50%;
+  animation: spark 0.9s ease-out forwards;
+}
+.spark:nth-child(odd) { color: var(--accent-2); text-shadow: 0 0 8px var(--accent-2); }
+@keyframes spark {
+  from { opacity: 1; transform: translate(0, 0) scale(var(--s, 1)) rotate(0); }
+  to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0) rotate(160deg); }
+}
+
+/* Glow text: a soft light follows the pointer across the text and blooms
+   open on hover. --mx/--my are set by the script in BaseLayout. */
+@property --glow-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+.glow-text {
+  --mx: 50%;
+  --my: 50%;
+  background-image:
+    radial-gradient(circle var(--glow-r) at var(--mx) var(--my), var(--accent), color-mix(in oklab, var(--accent-2) 70%, transparent) 45%, transparent 100%),
+    linear-gradient(currentColor, currentColor);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: --glow-r 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.glow-text.is-glowing { --glow-r: 170px; }
+.glow-text .text-accent { -webkit-text-fill-color: var(--accent); }
+
+.wave {
+  display: inline-block;
+  transform-origin: 70% 70%;
+  animation: wave 2.4s ease-in-out 1s 2;
+}
+@keyframes wave {
+  0%, 60%, 100% { transform: rotate(0); }
+  10%, 30% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+}
+
+/* Rotating role: the outgoing word lifts away, the next slides up. */
+.rotator { display: inline-grid; overflow: hidden; vertical-align: bottom; }
+.rotator > span {
+  grid-area: 1 / 1;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s;
+  transform: translateY(110%);
+  opacity: 0;
+  white-space: nowrap;
+}
+.rotator > span.is-active { transform: none; opacity: 1; }
+.rotator > span.is-leaving { transform: translateY(-110%); opacity: 0; }
+
+/* Links that lean toward the pointer (set by the hero script). */
+.magnet { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .blur-in > *, .rise-in .ch { opacity: 1; filter: none; transform: none; }
+}
+
+/* ── Hero portrait: photo in a glowing, spinning ring ─────── */
+@property --spin {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.portrait {
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  width: min(100%, 25rem);
+  aspect-ratio: 1;
+  margin: 0;
+  perspective: 900px;
+}
+.portrait-tilt {
+  position: absolute;
+  inset: 0;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.portrait-tilt > * { position: absolute; border-radius: 50%; }
+.portrait-glow {
+  inset: -4%;
+  background: conic-gradient(from var(--spin), var(--accent), var(--accent-2), transparent 40%, var(--accent) 65%, var(--accent-2), var(--accent));
+  filter: blur(42px);
+  opacity: 0.4;
+  animation: spin 10s linear infinite;
+  transition: opacity 0.5s;
+}
+.portrait-ring {
+  inset: 0;
+  padding: 3px;
+  background: conic-gradient(from var(--spin), var(--accent), var(--accent-2) 30%, transparent 45%, transparent 60%, var(--accent));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: spin 6s linear infinite;
+}
+.portrait-dash {
+  inset: 3.5%;
+  border: 1px dashed color-mix(in oklab, var(--accent) 45%, transparent);
+  animation: turn 40s linear infinite reverse;
+}
+.portrait-orbit { inset: 0; animation: turn 12s linear infinite; }
+.portrait-orbit::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 5px);
+  left: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px 3px var(--accent);
+}
+.portrait-photo {
+  inset: 6.5%;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 25px 60px -20px rgb(0 0 0 / 0.55), inset 0 0 0 1px var(--border);
+  transform: translateZ(30px);
+}
+.portrait-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 28%;
+  scale: 1.12;
+  transition: scale 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.portrait:hover .portrait-glow { opacity: 0.75; }
+.portrait:hover .portrait-photo img { scale: 1.18; }
+.portrait-badge {
+  position: absolute;
+  bottom: 9%;
+  left: -2%;
+  box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.5);
+  animation: float 5s ease-in-out infinite;
+}
+@keyframes spin { to { --spin: 360deg; } }
+@keyframes turn { to { transform: rotate(360deg); } }
+@keyframes float { 50% { transform: translateY(-8px); } }
+@media (prefers-reduced-motion: reduce) {
+  .portrait *, .portrait-badge { animation: none !important; }
+}
 
 /* Blinking terminal cursor */
 .cursor::after {

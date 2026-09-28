@@ -3,72 +3,87 @@ import { getImage } from 'astro:assets';
 import { profile, timeline, site } from '@/lib/data';
 import { resolveAsset } from '@/lib/images';
 import Icon from '@/components/Icon.astro';
-import HeroBackdrop from '@/components/react/HeroBackdrop';
-import HeroCard from '@/components/react/HeroCard';
-import DecryptedText from '@/components/reactbits/DecryptedText';
 
-const photo = await getImage({ src: resolveAsset(profile.photo), width: 760, format: 'webp', quality: 82 });
+const photo = await getImage({ src: resolveAsset(profile.photo), width: 800, height: 800, format: 'webp', quality: 85 });
 const current = [...timeline].reverse().find((t) => t.type === 'work' && t.end === 'present');
 const socials = profile.contact.socials.filter((s) => s.url);
 const showContact = site.home.includes('contact');
+
+// The last word of the name gets the accent; each letter rises in on its own
+// and reacts to the pointer (see the script below).
+const words = profile.name.trim().split(/\s+/);
+const last = words.pop()!;
+const first = words.join(' ');
+let n = 0;
+const letters = (text: string) => [...text].map((ch) => ({ ch, i: n++ }));
+const firstLetters = letters(first);
+n++; // the space between
+const lastLetters = letters(last);
 ---
 
-<section id="top" class="relative isolate flex min-h-[100svh] items-center overflow-hidden pt-28 pb-16">
-  <div
-    class="absolute inset-0 -z-20 opacity-50 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_45%,black_10%,transparent_80%)] dark:opacity-40"
-  >
-    <HeroBackdrop client:idle />
-  </div>
-  <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_50%_45%_at_30%_45%,var(--bg)_20%,transparent_100%)] opacity-90"></div>
+<section id="top" class="relative isolate flex min-h-[100svh] items-center overflow-hidden pt-24 pb-16">
+  <!-- Keeps the text readable over the contour map. -->
+  <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_50%_at_28%_50%,var(--bg)_15%,transparent_100%)] opacity-80"></div>
   <div class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-bg"></div>
 
-  <div class="container-page grid items-center gap-14 lg:grid-cols-[1.25fr_1fr]">
+  <div class="container-page grid items-center gap-12 lg:grid-cols-[1.3fr_1fr]">
     <div class="min-w-0">
-      <p class="font-mono text-sm text-muted">
-        <span class="text-accent">$</span> whoami
+      <p
+        class="inline-flex max-w-full items-center gap-2.5 rounded-full border border-border bg-surface/60 py-1.5 pr-4 pl-3 font-mono text-xs text-muted backdrop-blur sm:text-sm"
+      >
+        <span class="relative flex size-2 shrink-0">
+          <span class="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60"></span>
+          <span class="relative inline-flex size-2 rounded-full bg-accent"></span>
+        </span>
+        <span><span class="text-accent">$</span> whoami</span>
+        <span class="text-muted/50" aria-hidden="true">›</span>
+        <span class="sr-only">{profile.roles.join(', ')}</span>
+        <span class="rotator font-medium text-fg" data-rotator aria-hidden="true">
+          {profile.roles.map((role, i) => <span class:list={{ 'is-active': i === 0 }}>{role}</span>)}
+        </span>
       </p>
-      <h1 class="mt-4 text-5xl font-extrabold tracking-tight text-balance sm:text-6xl lg:text-7xl">
-        {profile.name}
+
+      <p class="blur-in mt-6 flex items-baseline gap-[0.3em] text-xl font-medium text-muted sm:text-2xl">
+        <span style="--i:0">Hi</span>
+        <span style="--i:1"><span class="wave" role="img" aria-label="waving hand">👋</span>,</span>
+        <span style="--i:2">I'm</span>
+      </p>
+
+      <h1
+        data-magic-name
+        class="rise-in mt-2 text-5xl leading-[1.05] font-extrabold tracking-tight sm:text-7xl lg:text-8xl"
+        aria-label={profile.name}
+      >
+        <span aria-hidden="true">
+          {firstLetters.map(({ ch, i }) => <span class="ch" style={`--i:${i}`}>{ch}</span>)}
+          {' '}
+          {lastLetters.map(({ ch, i }) => <span class="ch ch-accent" style={`--i:${i}`}>{ch}</span>)}
+        </span>
       </h1>
 
-      <p class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-base text-accent sm:text-lg">
-        {
-          profile.roles.map((role, i) => (
-            <>
-              {i > 0 && <span class="text-muted/60" aria-hidden="true">|</span>}
-              <DecryptedText
-                client:visible
-                text={role}
-                animateOn="view"
-                sequential
-                speed={40}
-                revealDirection="start"
-                characters="01ABCDEF#$%&*<>/"
-                encryptedClassName="text-muted"
-              />
-            </>
-          ))
-        }
+      <p class="blur-in mt-5 max-w-xl text-lg text-muted text-pretty sm:text-xl">
+        <span style="--i:8" class="glow-text">{profile.tagline}</span>
       </p>
 
-      <p class="mt-6 max-w-xl text-lg text-muted text-pretty">{profile.tagline}</p>
-
-      <ul class="mt-6 flex flex-wrap gap-x-5 gap-y-2 font-mono text-sm text-muted">
+      <ul class="blur-in mt-5 flex flex-wrap gap-2 font-mono text-xs text-muted sm:text-sm">
         {
           current && (
-            <li class="flex items-center gap-2">
-              <span class="relative flex size-2">
-                <span class="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
-                <span class="relative inline-flex size-2 rounded-full bg-accent" />
-              </span>
+            <li
+              style="--i:9"
+              class="flex items-center gap-2 rounded-lg border border-border bg-surface/60 px-3 py-1.5 backdrop-blur"
+            >
+              <Icon name="lucide:briefcase" class="size-4 text-accent" />
               {current.title}
-              {current.org && ` @ ${current.org}`}
+              {current.org && <span class="text-muted/70">{`@ ${current.org}`}</span>}
             </li>
           )
         }
         {
           profile.location && (
-            <li class="flex items-center gap-2">
+            <li
+              style="--i:10"
+              class="flex items-center gap-2 rounded-lg border border-border bg-surface/60 px-3 py-1.5 backdrop-blur"
+            >
               <Icon name="lucide:map-pin" class="size-4 text-accent" />
               {profile.location}
             </li>
@@ -76,26 +91,30 @@ const showContact = site.home.includes('contact');
         }
       </ul>
 
-      <div class="mt-9 flex flex-wrap items-center gap-3">
-        <a
-          href="/blog/"
-          class="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-accent-fg shadow-[0_0_30px_-8px_var(--accent)] transition hover:brightness-110"
-        >
-          <Icon name="lucide:book-open" class="size-4" />
-          Read the blog
-        </a>
+      <div class="blur-in mt-8 flex flex-wrap items-center gap-3">
         {
           showContact && (
             <a
               href="#contact"
-              class="inline-flex items-center gap-2 rounded-lg border border-border bg-surface/70 px-5 py-3 text-sm font-semibold backdrop-blur transition hover:border-accent/50 hover:text-accent"
+              data-magnet
+              style="--i:11"
+              class="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-accent-fg shadow-[0_0_30px_-8px_var(--accent)] transition hover:brightness-110"
             >
               <Icon name="lucide:send" class="size-4" />
               Get in touch
             </a>
           )
         }
-        <ul class="ml-1 flex items-center gap-1">
+        <a
+          href="/blog/"
+          data-magnet
+          style="--i:12"
+          class="inline-flex items-center gap-2 rounded-lg border border-border bg-surface/70 px-5 py-3 text-sm font-semibold backdrop-blur transition-colors hover:border-accent/50 hover:text-accent"
+        >
+          <Icon name="lucide:book-open" class="size-4" />
+          Read the blog
+        </a>
+        <ul class="ml-1 flex items-center gap-1" style="--i:13">
           {
             socials.map((s) => (
               <li>
@@ -103,6 +122,7 @@ const showContact = site.home.includes('contact');
                   href={s.url}
                   target="_blank"
                   rel="noopener noreferrer me"
+                  data-magnet
                   class="grid size-10 place-items-center rounded-lg text-muted transition-colors hover:bg-surface-2 hover:text-accent"
                   aria-label={s.label}
                   title={s.label}
@@ -116,12 +136,24 @@ const showContact = site.home.includes('contact');
       </div>
     </div>
 
-    <div class="hero-card flex min-w-0 justify-center lg:justify-end">
-      <HeroCard
-        client:visible
-        photo={photo.src}
-        name={profile.name}
-      />
+    <div class="flex min-w-0 justify-center lg:justify-end">
+      <figure class="portrait" data-portrait>
+        <div class="portrait-tilt">
+          <div class="portrait-glow" aria-hidden="true"></div>
+          <div class="portrait-ring" aria-hidden="true"></div>
+          <div class="portrait-dash" aria-hidden="true"></div>
+          <div class="portrait-orbit" aria-hidden="true"></div>
+          <div class="portrait-photo">
+            <img src={photo.src} width="800" height="800" alt={profile.name} fetchpriority="high" />
+          </div>
+        </div>
+        <figcaption
+          class="portrait-badge flex items-center gap-2 rounded-xl border border-border bg-surface/85 px-3 py-2 font-mono text-xs backdrop-blur sm:text-sm"
+        >
+          <Icon name="lucide:shield-check" class="size-4 text-accent" />
+          CEH v12 certified
+        </figcaption>
+      </figure>
     </div>
   </div>
 
@@ -136,9 +168,125 @@ const showContact = site.home.includes('contact');
 </section>
 <div id="main-content"></div>
 
-<style is:global>
-  /* ProfileCard sizes itself by height; keep it inside narrow viewports. */
-  .hero-card section {
-    max-height: min(540px, calc((100vw - 2rem) / 0.718)) !important;
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Rotating role: one word at a time.
+  const rotator = document.querySelector<HTMLElement>('[data-rotator]');
+  const roles = rotator ? [...rotator.children] : [];
+  if (roles.length > 1 && !reduce) {
+    let current = 0;
+    setInterval(() => {
+      const prev = roles[current];
+      current = (current + 1) % roles.length;
+      prev.classList.replace('is-active', 'is-leaving');
+      roles[current].classList.remove('is-leaving');
+      roles[current].classList.add('is-active');
+      setTimeout(() => prev.classList.remove('is-leaving'), 500);
+    }, 2600);
   }
-</style>
+
+  // Once an intro animation ends, release its hold on transform.
+  document.querySelectorAll('.blur-in > *').forEach((el) =>
+    el.addEventListener('animationend', () => el.classList.add('intro-done'), { once: true }),
+  );
+
+  // Magic name: letters near the pointer lift, tilt and glow, and sparkles
+  // trail behind it. Only the individual translate/scale/rotate properties
+  // are touched, so the rise-in animation's transform is left alone.
+  const name = document.querySelector<HTMLElement>('[data-magic-name]');
+  if (name && !reduce && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const chars = [...name.querySelectorAll<HTMLElement>('.ch')];
+    const RADIUS = 160;
+    let frame = 0;
+    let lastSpark = 0;
+
+    const spark = (x: number, y: number) => {
+      const el = document.createElement('span');
+      el.className = 'spark';
+      el.textContent = Math.random() > 0.5 ? '✦' : '✧';
+      el.style.left = `${x}px`;
+      el.style.top = `${y}px`;
+      el.style.setProperty('--dx', `${(Math.random() - 0.5) * 60}px`);
+      el.style.setProperty('--dy', `${-20 - Math.random() * 50}px`);
+      el.style.setProperty('--s', `${0.6 + Math.random() * 0.9}`);
+      document.body.appendChild(el);
+      el.addEventListener('animationend', () => el.remove(), { once: true });
+    };
+
+    const update = (x: number, y: number) => {
+      for (const ch of chars) {
+        const r = ch.getBoundingClientRect();
+        const dx = x - (r.left + r.width / 2);
+        const dy = y - (r.top + r.height / 2);
+        const t = Math.max(0, 1 - Math.hypot(dx, dy) / RADIUS);
+        ch.style.setProperty('--t', t.toFixed(3));
+        ch.style.translate = `0 ${(-t * 16).toFixed(1)}px`;
+        ch.style.scale = (1 + t * 0.22).toFixed(3);
+        ch.style.rotate = `${(Math.sign(dx) * -t * 8).toFixed(1)}deg`;
+      }
+    };
+
+    addEventListener(
+      'pointermove',
+      (e) => {
+        const box = name.getBoundingClientRect();
+        const near =
+          e.clientX > box.left - RADIUS && e.clientX < box.right + RADIUS &&
+          e.clientY > box.top - RADIUS && e.clientY < box.bottom + RADIUS;
+        if (!near && !name.dataset.active) return;
+        name.dataset.active = near ? '1' : '';
+        if (near && e.timeStamp - lastSpark > 45 && e.clientY > box.top && e.clientY < box.bottom) {
+          lastSpark = e.timeStamp;
+          spark(e.clientX + scrollX, e.clientY + scrollY);
+        }
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+          frame = 0;
+          update(near ? e.clientX : -9999, near ? e.clientY : -9999);
+        });
+      },
+      { passive: true },
+    );
+  }
+
+  // Portrait: tilts a little toward the pointer while it's over the photo.
+  const portrait = document.querySelector<HTMLElement>('[data-portrait]');
+  if (portrait && !reduce && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    portrait.addEventListener('pointermove', (e) => {
+      const r = portrait.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      portrait.style.setProperty('--rx', `${(-y * 14).toFixed(2)}deg`);
+      portrait.style.setProperty('--ry', `${(x * 14).toFixed(2)}deg`);
+    });
+    portrait.addEventListener('pointerleave', () => {
+      portrait.style.setProperty('--rx', '0deg');
+      portrait.style.setProperty('--ry', '0deg');
+    });
+  }
+
+  // Magnet: links lean toward a nearby pointer.
+  if (!reduce && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const els = [...document.querySelectorAll<HTMLElement>('[data-magnet]')];
+    els.forEach((el) => el.classList.add('magnet'));
+    let frame = 0;
+    addEventListener(
+      'pointermove',
+      (e) => {
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+          frame = 0;
+          for (const el of els) {
+            const r = el.getBoundingClientRect();
+            const dx = e.clientX - (r.left + r.width / 2);
+            const dy = e.clientY - (r.top + r.height / 2);
+            const near = Math.hypot(dx, dy) < Math.max(r.width, r.height) * 1.2;
+            el.style.transform = near ? `translate(${dx * 0.18}px, ${dy * 0.25}px)` : '';
+          }
+        });
+      },
+      { passive: true },
+    );
+  }
+</script>

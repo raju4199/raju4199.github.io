@@ -53,7 +53,14 @@ const profileSchema = z.object({
   photo: z.string(),
   status: z.string().optional(),
   tagline: z.string(),
-  about: z.array(z.string()),
+  about: z.object({
+    // Wrap words in **double asterisks** to highlight them.
+    lede: z.string(),
+    pillars: z
+      .array(z.object({ icon: z.string().default('lucide:shield'), title: z.string(), text: z.string() }))
+      .default([]),
+    more: z.array(z.string()).default([]),
+  }),
   stats: z
     .array(z.object({ value: z.number(), suffix: z.string().default(''), label: z.string() }))
     .default([]),

@@ -8,9 +8,9 @@ interface Stat {
 
 export default function Stats({ stats }: { stats: Stat[] }) {
   return (
-    <dl className="grid grid-cols-2 gap-3">
+    <dl className="grid grid-cols-2 gap-3 lg:grid-cols-4">
       {stats.map((stat) => (
-        <div key={stat.label} className="card flex flex-col justify-between gap-3 p-5">
+        <div key={stat.label} className="card flex flex-col justify-between gap-3 bg-surface/80 p-5 backdrop-blur">
           <dt className="order-2 text-sm text-muted">{stat.label}</dt>
           <dd className="order-1 font-mono text-4xl font-bold tracking-tight text-fg">
             <CountUp to={stat.value} duration={1.6} />

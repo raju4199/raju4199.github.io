@@ -3,6 +3,7 @@ import '@/styles/global.css';
 import BaseHead, { type Props as HeadProps } from '@/components/layout/BaseHead.astro';
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
+import TopoBackdrop from '@/components/react/TopoBackdrop';
 import { site } from '@/lib/data';
 
 type Props = HeadProps;
@@ -20,6 +21,7 @@ type Props = HeadProps;
       class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-accent-fg"
       >Skip to content</a
     >
+    <TopoBackdrop client:idle />
     <Header />
     <main id="main">
       <slot />
@@ -40,6 +42,30 @@ type Props = HeadProps;
         { rootMargin: '0px 0px -8% 0px' },
       );
       document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+      // Glow text: a light that follows the pointer over any .glow-text.
+      if (
+        matchMedia('(hover: hover) and (pointer: fine)').matches &&
+        !matchMedia('(prefers-reduced-motion: reduce)').matches
+      ) {
+        let lit: HTMLElement | null = null;
+        addEventListener(
+          'pointermove',
+          (e) => {
+            const el = (e.target as Element | null)?.closest<HTMLElement>('.glow-text') ?? null;
+            if (el !== lit) {
+              lit?.classList.remove('is-glowing');
+              el?.classList.add('is-glowing');
+              lit = el;
+            }
+            if (!el) return;
+            const r = el.getBoundingClientRect();
+            el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+            el.style.setProperty('--my', `${e.clientY - r.top}px`);
+          },
+          { passive: true },
+        );
+      }
     </script>
   </body>
 </html>

@@ -1,18 +1,74 @@
 ---
-import { profile } from '@/lib/data';
+import { profile, timeline, formatYearMonth } from '@/lib/data';
 import Section from './Section.astro';
+import Icon from '@/components/Icon.astro';
 import Stats from '@/components/react/Stats';
+import SpotlightCard from '@/components/reactbits/SpotlightCard';
 
 interface Props {
   index?: number;
 }
+
+const { lede, pillars, more } = profile.about;
+// "**text**" → highlighted run.
+const ledeParts = lede.split('**').map((text, i) => ({ text, strong: i % 2 === 1 }));
+const current = [...timeline].reverse().find((t) => t.type === 'work' && t.end === 'present');
 ---
 
 <Section id="about" index={Astro.props.index}>
-  <div class="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-14">
-    <div class="space-y-5 text-lg leading-relaxed text-muted">
-      {profile.about.map((p) => <p class="text-pretty">{p}</p>)}
+  <div class="space-y-8">
+    <div class="max-w-4xl">
+      <p class="glow-text text-xl leading-snug font-medium text-pretty sm:text-2xl">
+        {ledeParts.map((p) => (p.strong ? <span class="text-accent">{p.text}</span> : <span>{p.text}</span>))}
+      </p>
+      {
+        current && (
+          <p class="mt-5 inline-flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-sm text-muted">
+            <span class="relative flex size-2">
+              <span class="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
+              <span class="relative inline-flex size-2 rounded-full bg-accent" />
+            </span>
+            <span class="text-fg">Now:</span>
+            {current.title}
+            {current.org && ` @ ${current.org}`}
+            <span class="text-muted/60">· since {formatYearMonth(current.start)}</span>
+          </p>
+        )
+      }
     </div>
+
+    {
+      pillars.length > 0 && (
+        <div class="stagger grid gap-4 md:grid-cols-3">
+          {pillars.map((pillar, i) => (
+            <div style={`--i:${i}`} class="flex">
+              <SpotlightCard client:visible className="w-full bg-surface/80 backdrop-blur">
+                <span class="grid size-11 place-items-center rounded-xl border border-accent/25 bg-accent-soft text-accent">
+                  <Icon name={pillar.icon} class="size-5" />
+                </span>
+                <h3 class="glow-text mt-5 text-lg font-semibold tracking-tight">{pillar.title}</h3>
+                <p class="glow-text mt-2 leading-relaxed text-muted text-pretty">{pillar.text}</p>
+              </SpotlightCard>
+            </div>
+          ))}
+        </div>
+      )
+    }
+
     {profile.stats.length > 0 && <Stats client:visible stats={profile.stats} />}
+
+    {
+      more.length > 0 && (
+        <details class="group max-w-3xl rounded-2xl border border-border bg-surface/70 backdrop-blur">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-medium transition-colors hover:text-accent [&::-webkit-details-marker]:hidden">
+            The longer version
+            <Icon name="lucide:chevron-down" class="size-5 text-muted transition-transform group-open:rotate-180" />
+          </summary>
+          <div class="space-y-4 border-t border-border px-6 py-5 leading-relaxed text-muted">
+            {more.map((p) => <p class="glow-text text-pretty">{p}</p>)}
+          </div>
+        </details>
+      )
+    }
   </div>
 </Section>
