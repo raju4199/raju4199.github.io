@@ -4,7 +4,7 @@ description: "From EternalBlue to Stuxnet: why unpatched, outdated systems are t
 date: 2026-10-12
 tags: [Legacy Systems, EternalBlue, ICS Security, Vulnerability Research, Ransomware]
 category: Research
-cover: ../../assets/blog/legacy-cover.svg
+cover: ../../assets/blog/legacy-cover.png
 coverAlt: "An old CRT terminal showing Windows XP with 4,812 days of uptime and a last patch date of 2014"
 draft: false
 ---
