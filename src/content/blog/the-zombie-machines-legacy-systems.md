@@ -15,6 +15,13 @@ None of these machines get security updates anymore. Most never will. And attack
 
 These are the **zombie machines**: dead to their vendors, still alive on production networks. This post covers why they're so dangerous, who they've already wrecked, and why industry keeps them running anyway.
 
+<div class="stat-grid not-prose">
+  <div class="stat"><span class="stat-value">$10B</span><span class="stat-label">damage from one attack (NotPetya)</span></div>
+  <div class="stat"><span class="stat-value">200,000+</span><span class="stat-label">computers hit by WannaCry</span></div>
+  <div class="stat"><span class="stat-value">83%</span><span class="stat-label">of medical imaging devices on unsupported OS</span></div>
+  <div class="stat"><span class="stat-value">30 yrs</span><span class="stat-label">typical life of an industrial controller</span></div>
+</div>
+
 > **TL;DR**
 >
 > - Legacy systems never get patched, so every known bug stays open **forever**.
@@ -86,6 +93,10 @@ EternalBlue was an NSA exploit for a bug in **SMBv1**, the old Windows file-shar
 
 That makes it **wormable**. One infected machine can automatically infect every vulnerable machine it can reach.
 
+![Diagram: an infected host sends a crafted SMBv1 packet to an unpatched Windows PC on port 445, installs the DoublePulsar backdoor and the WannaCry payload, then scans for new victims that repeat the cycle](../../assets/blog/eternalblue-worm.svg)
+
+*How EternalBlue turned WannaCry into a worm: every victim becomes the next attacker.*
+
 ### WannaCry: 200,000 Machines in a Weekend
 
 On **May 12, 2017**, the **WannaCry** ransomware worm used EternalBlue to hit more than **200,000 computers in 150+ countries** within days.
@@ -103,6 +114,10 @@ Things got so bad that on **May 13, 2017**, Microsoft released an emergency patc
 On **June 27, 2017**, **NotPetya** spread through a poisoned update of **M.E.Doc**, a Ukrainian accounting tool. It looked like ransomware, but it was a **wiper**: the data could never come back.
 
 It combined **EternalBlue** and **EternalRomance** with **Mimikatz**-style password theft. So even patched machines fell once one unpatched machine leaked admin credentials. The White House put total damage at around **$10 billion**.
+
+![Diagram: NotPetya attack chain from the hijacked M.E.Doc update server, to a poisoned update, stolen admin credentials, domain-wide spread with EternalBlue, and disks wiped, causing around $10 billion in damage](../../assets/blog/notpetya-chain.svg)
+
+*Five steps from a routine accounting update to the most expensive cyberattack in history.*
 
 | Company | Industry | Reported impact |
 | --- | --- | --- |
@@ -151,6 +166,10 @@ The most famous cyberweapon ever built.
 - **Impact:** about **1,000 centrifuges** destroyed while operators saw normal readings
 - **Lesson:** many industrial controllers trust anyone who can program them
 
+![Diagram: Stuxnet attack chain from a USB drive, to Windows zero-days, to Siemens Step 7 software, to an S7 PLC that pushes centrifuges to destructive speeds, while operators see replayed normal readings](../../assets/blog/stuxnet-chain.svg)
+
+*Stuxnet broke real machines while showing operators that everything was fine.*
+
 ### Heartbleed & Shellshock (2014): Bugs That Outlived Their Fix
 
 Two famous bugs that still live in forgotten devices.
@@ -169,6 +188,10 @@ The first confirmed cyberattacks to cut power to a country's citizens.
 - **Impact:** about **230,000 people** lost power in winter
 - **Lesson:** protocols like **IEC 60870-5-104** and **IEC 61850** have no built-in login; if you can reach the device, it obeys
 
+![Diagram: Ukraine 2015 grid attack from a phishing email, to BlackEnergy 3 on the office network, stolen VPN credentials, remote control of operator screens and substations switched off, leaving about 230,000 people without power](../../assets/blog/ukraine-grid.svg)
+
+*Six steps from a booby-trapped email to a winter blackout.*
+
 ### Mirai (2016): Death by Default Passwords
 
 A botnet that used no clever exploit at all.
@@ -177,6 +200,10 @@ A botnet that used no clever exploit at all.
 - **Affected:** cameras, DVRs and home routers
 - **Impact:** took down **Dyn** DNS, and with it Twitter, Netflix, Reddit and GitHub
 - **Lesson:** default credentials are a vulnerability on their own
+
+![Diagram: Mirai botnet scanning the internet for Telnet, logging in with factory passwords, recruiting cameras and routers into a botnet of hundreds of thousands of devices, and flooding Dyn DNS so Twitter, Netflix, Reddit and GitHub went down](../../assets/blog/mirai-botnet.svg)
+
+*Mirai needed no exploit at all, only passwords nobody had changed.*
 
 ### TRITON (2017): Attacking the Safety Systems
 
@@ -298,6 +325,10 @@ Until something like WannaCry happens, legacy risk never shows up on a balance s
 
 You often can't remove legacy systems right away. But you can stop them from becoming the door into everything else.
 
+![Diagram: a layered industrial network from the internet down to the physical process, with firewalls around a DMZ and a legacy Windows XP machine fenced into its own enclave](../../assets/blog/legacy-segmentation.svg)
+
+*Segmentation in one picture: every layer is another wall an attacker has to climb.*
+
 1. **Know what you have.** Build a full inventory, including OT and medical devices, with OS versions and EOL dates.
 2. **Segment ruthlessly.** Put legacy devices in their own zones, following the **Purdue model** and **IEC 62443**.
 3. **Kill dead protocols.** Disable **SMBv1**, block ports **445** and **3389** at the edge, and replace Telnet and FTP with SSH and SFTP.
@@ -307,6 +338,19 @@ You often can't remove legacy systems right away. But you can stop them from bec
 7. **Buy extended support.** Microsoft's **Extended Security Updates (ESU)** buy time for systems like Windows 10.
 8. **Monitor closely.** OT-aware network monitoring can catch strange traffic to PLCs early.
 9. **Plan the exit.** Put EOL dates in contracts and budget the replacement before a crisis does it for you.
+
+### Quick Self-Check
+
+How many of these can you tick for your own network?
+
+- [ ] I have a list of every device past its vendor's support date
+- [ ] SMBv1 is disabled everywhere it isn't strictly needed
+- [ ] No legacy device can reach the internet directly
+- [ ] Every remote access path requires MFA
+- [ ] Unused VPN and admin accounts are disabled
+- [ ] Each EOL system has a budgeted replacement plan
+
+Fewer than four ticks? Your network probably has a zombie machine or two.
 
 ### Check Your Own Network
 

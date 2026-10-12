@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+  <rect width="900" height="400" fill="#0c1013"/>
+  <defs>
+    <marker id="sx-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#3ee08a"/>
+    </marker>
+    <marker id="sx-arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#f87171"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="38" font-size="16" fill="#e3ebe7" text-anchor="middle">Stuxnet: crossing the air gap to break physical machines</text>
+
+  <g text-anchor="middle">
+    <rect x="30" y="70" width="240" height="84" rx="12" fill="#121820" stroke="#fbbf24"/>
+    <text x="150" y="98" font-size="11" fill="#fbbf24">1 · USB DRIVE</text>
+    <text x="150" y="120" font-size="13" fill="#e3ebe7">Carried inside</text>
+    <text x="150" y="138" font-size="11" fill="#8b9892">air gap bypassed</text>
+
+    <rect x="330" y="70" width="240" height="84" rx="12" fill="#121820" stroke="#3cc8e6"/>
+    <text x="450" y="98" font-size="11" fill="#3cc8e6">2 · WINDOWS PCs</text>
+    <text x="450" y="120" font-size="13" fill="#e3ebe7">Windows zero-days</text>
+    <text x="450" y="138" font-size="11" fill="#8b9892">incl. CVE-2010-2568</text>
+
+    <rect x="630" y="70" width="240" height="84" rx="12" fill="#121820" stroke="#3cc8e6"/>
+    <text x="750" y="98" font-size="11" fill="#3cc8e6">3 · ENGINEERING PC</text>
+    <text x="750" y="120" font-size="13" fill="#e3ebe7">Siemens Step 7</text>
+    <text x="750" y="138" font-size="11" fill="#8b9892">software compromised</text>
+
+    <rect x="630" y="200" width="240" height="84" rx="12" fill="#121820" stroke="#f87171"/>
+    <text x="750" y="228" font-size="11" fill="#f87171">4 · PLC</text>
+    <text x="750" y="250" font-size="13" fill="#e3ebe7">Siemens S7 controller</text>
+    <text x="750" y="268" font-size="11" fill="#8b9892">logic secretly altered</text>
+
+    <rect x="330" y="200" width="240" height="84" rx="12" fill="#2a1316" stroke="#f87171" stroke-width="2"/>
+    <text x="450" y="228" font-size="11" fill="#f87171">5 · CENTRIFUGES</text>
+    <text x="450" y="250" font-size="13" fill="#e3ebe7">Speed pushed to extremes</text>
+    <text x="450" y="268" font-size="11" fill="#8b9892">~1,000 destroyed at Natanz</text>
+
+    <rect x="30" y="200" width="240" height="84" rx="12" fill="#0e1a12" stroke="#3ee08a"/>
+    <text x="150" y="228" font-size="11" fill="#3ee08a">OPERATOR SCREEN</text>
+    <text x="150" y="250" font-size="13" fill="#e3ebe7">"All systems normal"</text>
+    <text x="150" y="268" font-size="11" fill="#8b9892">recorded data replayed</text>
+  </g>
+
+  <g stroke="#3ee08a" stroke-width="2" fill="none" marker-end="url(#sx-arrow)">
+    <path d="M270 112H324"/>
+    <path d="M570 112H624"/>
+    <path d="M750 154V194"/>
+    <path d="M630 242H576"/>
+  </g>
+  <path d="M750 284V330H150V290" stroke="#f87171" stroke-width="2" stroke-dasharray="6 6" fill="none" marker-end="url(#sx-arrow-red)"/>
+  <text x="450" y="352" font-size="12" fill="#f87171" text-anchor="middle">fake "normal" readings sent to operators</text>
+
+  <text x="450" y="384" font-size="12" fill="#8b9892" text-anchor="middle">The PLC trusted whoever programmed it. No authentication, no alarm.</text>
+</svg>

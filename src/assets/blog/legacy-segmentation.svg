@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+  <rect width="900" height="500" fill="#0c1013"/>
+
+  <text x="450" y="36" font-size="16" fill="#e3ebe7" text-anchor="middle">Fencing off legacy: a layered network (Purdue model)</text>
+
+  <!-- zones -->
+  <g font-size="13">
+    <rect x="30" y="60" width="570" height="44" rx="8" fill="#2a1316" stroke="#f87171"/>
+    <text x="48" y="87" fill="#f87171">INTERNET</text>
+    <text x="582" y="87" fill="#8b9892" font-size="11" text-anchor="end">untrusted</text>
+
+    <rect x="30" y="114" width="570" height="44" rx="8" fill="#121820" stroke="#2a3540"/>
+    <text x="48" y="141" fill="#e3ebe7">L4–5 · Enterprise IT</text>
+    <text x="582" y="141" fill="#8b9892" font-size="11" text-anchor="end">email, ERP, laptops</text>
+
+    <rect x="30" y="186" width="570" height="44" rx="8" fill="#121820" stroke="#3cc8e6"/>
+    <text x="48" y="213" fill="#3cc8e6">L3.5 · DMZ</text>
+    <text x="582" y="213" fill="#8b9892" font-size="11" text-anchor="end">jump host + MFA, patch server</text>
+
+    <rect x="30" y="258" width="570" height="44" rx="8" fill="#121820" stroke="#2a3540"/>
+    <text x="48" y="285" fill="#e3ebe7">L3 · Operations</text>
+    <text x="582" y="285" fill="#8b9892" font-size="11" text-anchor="end">SCADA servers, historian</text>
+
+    <rect x="30" y="312" width="570" height="44" rx="8" fill="#121820" stroke="#2a3540"/>
+    <text x="48" y="339" fill="#e3ebe7">L2 · Supervisory</text>
+    <text x="582" y="339" fill="#8b9892" font-size="11" text-anchor="end">HMIs, engineering PCs</text>
+
+    <rect x="30" y="366" width="570" height="44" rx="8" fill="#121820" stroke="#2a3540"/>
+    <text x="48" y="393" fill="#e3ebe7">L1 · Controllers</text>
+    <text x="582" y="393" fill="#8b9892" font-size="11" text-anchor="end">PLCs, RTUs</text>
+
+    <rect x="30" y="420" width="570" height="44" rx="8" fill="#0e1a12" stroke="#3ee08a"/>
+    <text x="48" y="447" fill="#3ee08a">L0 · Physical process</text>
+    <text x="582" y="447" fill="#8b9892" font-size="11" text-anchor="end">pumps, valves, motors</text>
+  </g>
+
+  <!-- firewalls -->
+  <g stroke="#fbbf24" stroke-width="2" stroke-dasharray="8 5">
+    <path d="M30 172H600"/>
+    <path d="M30 244H600"/>
+  </g>
+  <g font-size="10" fill="#fbbf24">
+    <rect x="262" y="164" width="106" height="16" fill="#0c1013"/>
+    <text x="315" y="176" text-anchor="middle">▲ FIREWALL ▲</text>
+    <rect x="262" y="236" width="106" height="16" fill="#0c1013"/>
+    <text x="315" y="248" text-anchor="middle">▲ FIREWALL ▲</text>
+  </g>
+
+  <!-- legacy enclave -->
+  <path d="M600 334H646" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 4"/>
+  <rect x="612" y="326" width="22" height="16" rx="3" fill="#0c1013" stroke="#fbbf24"/>
+  <text x="623" y="338" font-size="9" fill="#fbbf24" text-anchor="middle">FW</text>
+  <g text-anchor="middle">
+    <rect x="650" y="296" width="220" height="80" rx="12" fill="#2a1316" stroke="#f87171" stroke-dasharray="6 4"/>
+    <text x="760" y="320" font-size="11" fill="#f87171">LEGACY ENCLAVE</text>
+    <text x="760" y="341" font-size="13" fill="#e3ebe7">Windows XP HMI</text>
+    <text x="760" y="360" font-size="11" fill="#8b9892">allowlist-only traffic</text>
+  </g>
+
+  <!-- rules -->
+  <g font-size="12" fill="#8b9892">
+    <text x="650" y="78" fill="#e3ebe7">Golden rules</text>
+    <text x="650" y="104">✕ Nothing in L0–L2 talks</text>
+    <text x="650" y="122">  to the internet</text>
+    <text x="650" y="148">✕ IT never connects</text>
+    <text x="650" y="166">  straight to control</text>
+    <text x="650" y="192">✓ All remote access goes</text>
+    <text x="650" y="210">  through the DMZ</text>
+    <text x="650" y="236">✓ Legacy boxes get their</text>
+    <text x="650" y="254">  own fenced zone</text>
+  </g>
+  <text x="450" y="490" font-size="11" fill="#8b9892" text-anchor="middle">If one zone falls, the attacker still has to break through the next wall.</text>
+</svg>
