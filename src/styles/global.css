@@ -433,6 +433,60 @@
   border-radius: 0.75rem;
   border: 1px solid var(--border);
 }
+/* Big-number stat cards: <div class="stat-grid not-prose"> in a post. */
+.prose-post .stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-block: 2rem;
+}
+@media (min-width: 640px) {
+  .prose-post .stat-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.prose-post .stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  border-radius: 0.75rem;
+  background: var(--surface);
+}
+.prose-post .stat-value {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--accent);
+}
+.prose-post .stat-label {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+/* Markdown task lists ("- [ ]") as a checklist. */
+.prose-post ul:has(> li > input[type="checkbox"]) {
+  list-style: none;
+  padding-left: 0;
+}
+.prose-post li:has(> input[type="checkbox"]) {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding-left: 0;
+}
+.prose-post li > input[type="checkbox"] {
+  accent-color: var(--accent);
+  transform: translateY(0.1em);
+}
+/* An italic-only paragraph right after an image is its caption. */
+.prose-post p:has(> img) + p:has(> em:only-child) {
+  margin-top: -0.75em;
+  text-align: center;
+  font-size: 0.85em;
+  color: var(--muted);
+}
 .prose-post table {
   display: block;
   overflow-x: auto;

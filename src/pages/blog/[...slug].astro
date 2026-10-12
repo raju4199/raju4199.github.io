@@ -423,6 +423,11 @@ const jsonLd = {
     heading.appendChild(anchor);
   });
 
+  // Let readers tick Markdown task lists (they render disabled by default).
+  article?.querySelectorAll<HTMLInputElement>('li > input[type="checkbox"][disabled]').forEach((box) => {
+    box.disabled = false;
+  });
+
   // Language label + copy button on code blocks.
   article?.querySelectorAll<HTMLPreElement>('pre.astro-code').forEach((pre) => {
     const toolbar = document.createElement('div');
