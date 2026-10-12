@@ -345,7 +345,7 @@ So go look at your network. Somewhere in there is a machine nobody has touched i
 - [CISA: Bad Practices (use of unsupported software)](https://www.cisa.gov/stopransomware/bad-practices)
 - [Wired: The Untold Story of NotPetya, the Most Devastating Cyberattack in History](https://www.wired.com/story/notpetya-cyberattack-ukraine-russia-code-crashed-the-world/)
 - [UK National Audit Office: Investigation: WannaCry cyber attack and the NHS](https://www.nao.org.uk/reports/investigation-wannacry-cyber-attack-and-the-nhs/)
-- [Microsoft guidance on BlueKeep (CVE-2019-0708)](https://msrc.microsoft.com/blog/2019/05/prevent-a-worm-by-updating-remote-desktop-services-cve-2019-0708/)
+- [Microsoft guidance on BlueKeep (CVE-2019-0708)](https://www.microsoft.com/en-us/msrc/blog/2019/05/prevent-a-worm-by-updating-remote-desktop-services-cve-2019-0708/)
 
 ---
 
