@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+  <rect width="900" height="420" fill="#0c1013"/>
+  <text x="450" y="40" font-size="16" fill="#e3ebe7" text-anchor="middle">A decade of legacy systems getting wrecked</text>
+
+  <path d="M50 210H850" stroke="#3ee08a" stroke-width="2"/>
+
+  <g font-size="12" text-anchor="middle">
+    <!-- above the line -->
+    <g fill="#f87171">
+      <circle cx="80" cy="210" r="7"/>
+      <circle cx="270" cy="210" r="7"/>
+      <circle cx="460" cy="210" r="7"/>
+      <circle cx="650" cy="210" r="7"/>
+      <circle cx="830" cy="210" r="7"/>
+    </g>
+    <g fill="#fbbf24">
+      <circle cx="175" cy="210" r="7"/>
+      <circle cx="365" cy="210" r="7"/>
+      <circle cx="555" cy="210" r="7"/>
+      <circle cx="745" cy="210" r="7"/>
+    </g>
+
+    <g stroke="#2a3540" stroke-dasharray="4 4">
+      <path d="M80 200V120M270 200V120M460 200V120M650 200V120M830 200V120"/>
+      <path d="M175 220V300M365 220V300M555 220V300M745 220V300"/>
+    </g>
+
+    <g fill="#e3ebe7">
+      <text x="80" y="80">2008</text>
+      <text x="270" y="80">2015</text>
+      <text x="460" y="80">May 2017</text>
+      <text x="650" y="80">2018</text>
+      <text x="830" y="80">2021</text>
+    </g>
+    <g fill="#8b9892">
+      <text x="80" y="100">Conficker</text>
+      <text x="80" y="115">MS08-067</text>
+      <text x="270" y="100">Ukraine grid</text>
+      <text x="270" y="115">230k in dark</text>
+      <text x="460" y="100">WannaCry</text>
+      <text x="460" y="115">NHS, 150 countries</text>
+      <text x="650" y="100">TSMC fabs</text>
+      <text x="650" y="115">~$170M loss</text>
+      <text x="830" y="100">Colonial</text>
+      <text x="830" y="115">old VPN acct</text>
+    </g>
+
+    <g fill="#e3ebe7">
+      <text x="175" y="325">2010</text>
+      <text x="365" y="325">2016</text>
+      <text x="555" y="325">Jun 2017</text>
+      <text x="745" y="325">2019</text>
+    </g>
+    <g fill="#8b9892">
+      <text x="175" y="345">Stuxnet</text>
+      <text x="175" y="360">Natanz PLCs</text>
+      <text x="365" y="345">Mirai</text>
+      <text x="365" y="360">default creds</text>
+      <text x="555" y="345">NotPetya</text>
+      <text x="555" y="360">~$10B damage</text>
+      <text x="745" y="345">BlueKeep</text>
+      <text x="745" y="360">wormable RDP</text>
+    </g>
+  </g>
+
+  <g font-size="12" fill="#8b9892">
+    <circle cx="300" cy="395" r="5" fill="#f87171"/><text x="312" y="399">attack on legacy</text>
+    <circle cx="470" cy="395" r="5" fill="#fbbf24"/><text x="482" y="399">worm / mass exploit</text>
+  </g>
+</svg>
