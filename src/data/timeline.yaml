@@ -44,8 +44,16 @@
 
 - type: work
   start: "2025-06"
-  end: present
+  end: "2026-05"
   title: Cyber Security Analyst
+  org: QOS Technology Private Limited
+  logo: logos/qos.svg
+  description: Offensive security assessments and security research.
+
+- type: work
+  start: "2026-06"
+  end: present
+  title: Security Engineer
   org: QOS Technology Private Limited
   logo: logos/qos.svg
   description: Offensive security assessments and security research.
