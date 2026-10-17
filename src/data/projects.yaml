@@ -5,11 +5,15 @@
 #  PLACEHOLDERS below: replace them with your real projects.
 # ─────────────────────────────────────────────────────────────
 
-- title: Project One
-  description: A short, one or two line summary of what this project does and why it matters.
-  tags: [Web Security, Python]
-  status: coming-soon
-  links: {}
+- title: AirSniffer
+  description: >-
+    A single Bash console for a whole Wi-Fi engagement — discover and audit WEP,
+    WPA/WPA2, WPA3-SAE and WPS, run the deauth → handshake capture → offline crack
+    chain, and stand up a vendor-matched evil twin. Authorized testing only.
+  tags: [Wi-Fi Security, Bash, Red Team]
+  status: shipped
+  links:
+    github: https://github.com/raju4199/AirSniffer
 
 - title: Project Two
   description: A short, one or two line summary of what this project does and why it matters.
