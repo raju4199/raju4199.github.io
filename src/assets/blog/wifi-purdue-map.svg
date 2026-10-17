@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+  <rect width="900" height="560" fill="#0c1013"/>
+  <text x="450" y="36" font-size="16" fill="#e3ebe7" text-anchor="middle">The automation blueprint: where Wi-Fi touches every layer</text>
+
+  <text x="70" y="64" font-size="10" fill="#8b9892" text-anchor="middle">LEVEL</text>
+  <text x="330" y="64" font-size="10" fill="#8b9892" text-anchor="middle">WHAT LIVES HERE</text>
+  <text x="730" y="64" font-size="10" fill="#fbbf24" text-anchor="middle">WIRELESS FOOTHOLD</text>
+
+  <g font-size="12">
+    <rect x="30" y="74" width="80" height="54" rx="8" fill="#121820" stroke="#3cc8e6"/>
+    <text x="70" y="98" fill="#3cc8e6" text-anchor="middle">L4/5</text>
+    <text x="70" y="115" font-size="9" fill="#8b9892" text-anchor="middle">enterprise</text>
+    <rect x="120" y="74" width="430" height="54" rx="8" fill="#121820" stroke="#2a333a"/>
+    <text x="134" y="97" fill="#e3ebe7">Corporate IT, cloud, email, ERP</text>
+    <text x="134" y="116" font-size="10" fill="#8b9892">office Wi-Fi shares walls with the plant</text>
+    <rect x="565" y="74" width="305" height="54" rx="8" fill="#1a1710" stroke="#fbbf24"/>
+    <text x="580" y="105" font-size="11" fill="#fbbf24">Guest/office SSID bridges into OT</text>
+
+    <rect x="30" y="138" width="80" height="54" rx="8" fill="#121820" stroke="#3cc8e6"/>
+    <text x="70" y="162" fill="#3cc8e6" text-anchor="middle">L3</text>
+    <text x="70" y="179" font-size="9" fill="#8b9892" text-anchor="middle">operations</text>
+    <rect x="120" y="138" width="430" height="54" rx="8" fill="#121820" stroke="#2a333a"/>
+    <text x="134" y="161" fill="#e3ebe7">SCADA servers, historians, MES</text>
+    <text x="134" y="180" font-size="10" fill="#8b9892">engineering laptops roam on Wi-Fi</text>
+    <rect x="565" y="138" width="305" height="54" rx="8" fill="#1a1710" stroke="#fbbf24"/>
+    <text x="580" y="169" font-size="11" fill="#fbbf24">Wi-Fi engineering laptop = jump host</text>
+
+    <rect x="30" y="202" width="80" height="54" rx="8" fill="#121820" stroke="#3ee08a"/>
+    <text x="70" y="226" fill="#3ee08a" text-anchor="middle">L2</text>
+    <text x="70" y="243" font-size="9" fill="#8b9892" text-anchor="middle">control</text>
+    <rect x="120" y="202" width="430" height="54" rx="8" fill="#121820" stroke="#2a333a"/>
+    <text x="134" y="225" fill="#e3ebe7">HMIs, operator panels, tablets</text>
+    <text x="134" y="244" font-size="10" fill="#8b9892">wireless HMI tablets on the floor</text>
+    <rect x="565" y="202" width="305" height="54" rx="8" fill="#1a1710" stroke="#fbbf24"/>
+    <text x="580" y="233" font-size="11" fill="#fbbf24">Open/weak HMI tablet SSID</text>
+
+    <rect x="30" y="266" width="80" height="54" rx="8" fill="#121820" stroke="#3ee08a"/>
+    <text x="70" y="290" fill="#3ee08a" text-anchor="middle">L1</text>
+    <text x="70" y="307" font-size="9" fill="#8b9892" text-anchor="middle">controllers</text>
+    <rect x="120" y="266" width="430" height="54" rx="8" fill="#121820" stroke="#2a333a"/>
+    <text x="134" y="289" fill="#e3ebe7">PLCs, RTUs, wireless I/O bridges</text>
+    <text x="134" y="308" font-size="10" fill="#8b9892">Modbus/Profinet over Wi-Fi bridge</text>
+    <rect x="565" y="266" width="305" height="54" rx="8" fill="#2a1316" stroke="#f87171"/>
+    <text x="580" y="297" font-size="11" fill="#f87171">Wireless PLC bridge speaks plaintext</text>
+
+    <rect x="30" y="330" width="80" height="54" rx="8" fill="#121820" stroke="#f87171"/>
+    <text x="70" y="354" fill="#f87171" text-anchor="middle">L0</text>
+    <text x="70" y="371" font-size="9" fill="#8b9892" text-anchor="middle">process</text>
+    <rect x="120" y="330" width="430" height="54" rx="8" fill="#121820" stroke="#2a333a"/>
+    <text x="134" y="353" fill="#e3ebe7">Sensors, drives, robots, valves</text>
+    <text x="134" y="372" font-size="10" fill="#8b9892">WirelessHART, Zigbee, 5G modules</text>
+    <rect x="565" y="330" width="305" height="54" rx="8" fill="#2a1316" stroke="#f87171"/>
+    <text x="580" y="361" font-size="11" fill="#f87171">Sensor mesh jammed or spoofed</text>
+  </g>
+
+  <path d="M557 101 V357" stroke="#f87171" stroke-width="2" stroke-dasharray="5 5" fill="none"/>
+  <text x="450" y="420" font-size="12" fill="#fbbf24" text-anchor="middle">One weak radio at any level is a bridge to the one below it.</text>
+  <text x="450" y="446" font-size="11" fill="#8b9892" text-anchor="middle">The Purdue model assumes the layers are separated. Wi-Fi quietly connects them.</text>
+
+  <rect x="150" y="474" width="600" height="54" rx="10" fill="#0e1a12" stroke="#3ee08a"/>
+  <text x="450" y="498" font-size="12" fill="#3ee08a" text-anchor="middle">Air has no cable to cut and no door to lock.</text>
+  <text x="450" y="518" font-size="11" fill="#8b9892" text-anchor="middle">An attacker in the parking lot is already inside the building's radio range.</text>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+  <rect width="900" height="360" fill="#0c1013"/>
+  <defs>
+    <marker id="kr-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#f87171"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="36" font-size="16" fill="#e3ebe7" text-anchor="middle">KRACK: forcing a Wi-Fi device to reuse a key it should never reuse</text>
+
+  <g text-anchor="middle">
+    <rect x="30" y="80" width="190" height="96" rx="12" fill="#121820" stroke="#fbbf24"/>
+    <text x="125" y="108" font-size="11" fill="#fbbf24">1 · SIT IN RANGE</text>
+    <text x="125" y="131" font-size="12" fill="#e3ebe7">Attacker watches</text>
+    <text x="125" y="150" font-size="12" fill="#e3ebe7">the WPA2 handshake</text>
+    <text x="125" y="168" font-size="10" fill="#8b9892">no password needed</text>
+
+    <rect x="250" y="80" width="190" height="96" rx="12" fill="#121820" stroke="#3cc8e6"/>
+    <text x="345" y="108" font-size="11" fill="#3cc8e6">2 · REPLAY MESSAGE</text>
+    <text x="345" y="131" font-size="12" fill="#e3ebe7">Resends step 3 of</text>
+    <text x="345" y="150" font-size="12" fill="#e3ebe7">the 4-way handshake</text>
+    <text x="345" y="168" font-size="10" fill="#8b9892">client reinstalls key</text>
+
+    <rect x="470" y="80" width="190" height="96" rx="12" fill="#2a1316" stroke="#f87171"/>
+    <text x="565" y="108" font-size="11" fill="#f87171">3 · KEY REUSED</text>
+    <text x="565" y="131" font-size="12" fill="#e3ebe7">Nonce resets,</text>
+    <text x="565" y="150" font-size="12" fill="#e3ebe7">keystream repeats</text>
+    <text x="565" y="168" font-size="10" fill="#8b9892">encryption breaks down</text>
+
+    <rect x="690" y="80" width="190" height="96" rx="12" fill="#121820" stroke="#f87171"/>
+    <text x="785" y="108" font-size="11" fill="#f87171">4 · READ TRAFFIC</text>
+    <text x="785" y="131" font-size="12" fill="#e3ebe7">Decrypt packets,</text>
+    <text x="785" y="150" font-size="12" fill="#e3ebe7">inject commands</text>
+    <text x="785" y="168" font-size="10" fill="#8b9892">to HMIs and PLCs</text>
+  </g>
+
+  <g stroke="#f87171" stroke-width="2" fill="none" marker-end="url(#kr-r)">
+    <path d="M220 128 H246"/>
+    <path d="M440 128 H466"/>
+    <path d="M660 128 H686"/>
+  </g>
+
+  <rect x="150" y="226" width="600" height="60" rx="10" fill="#1a1710" stroke="#fbbf24"/>
+  <text x="450" y="252" font-size="12" fill="#fbbf24" text-anchor="middle">CVE-2017-13077 and friends. The bug was in the Wi-Fi standard itself,</text>
+  <text x="450" y="272" font-size="12" fill="#e3ebe7" text-anchor="middle">so every WPA2 device was affected until patched — including OT gear that never gets patched.</text>
+
+  <text x="450" y="322" font-size="11" fill="#8b9892" text-anchor="middle">A strong Wi-Fi password does not help here. The weakness is in the handshake, not the password.</text>
+</svg>

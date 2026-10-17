@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+  <rect width="900" height="420" fill="#0c1013"/>
+
+  <text x="450" y="36" font-size="16" fill="#e3ebe7" text-anchor="middle">You defended the fence. Wi-Fi ignores the fence.</text>
+
+  <!-- ground -->
+  <rect x="0" y="330" width="900" height="90" fill="#0a0e11"/>
+  <line x1="0" y1="330" x2="900" y2="330" stroke="#2a333a" stroke-width="1"/>
+
+  <!-- factory -->
+  <rect x="360" y="250" width="180" height="80" fill="#121820" stroke="#2a333a"/>
+  <rect x="380" y="270" width="24" height="24" fill="#0e1a12" stroke="#3ee08a"/>
+  <rect x="438" y="270" width="24" height="24" fill="#0e1a12" stroke="#3ee08a"/>
+  <rect x="496" y="270" width="24" height="24" fill="#0e1a12" stroke="#3ee08a"/>
+  <text x="450" y="320" font-size="10" fill="#8b9892" text-anchor="middle">PLANT FLOOR + AP</text>
+
+  <!-- signal rings -->
+  <g fill="none" stroke-dasharray="4 6">
+    <circle cx="450" cy="250" r="110" stroke="#3ee08a" stroke-opacity="0.8"/>
+    <circle cx="450" cy="250" r="190" stroke="#fbbf24" stroke-opacity="0.6"/>
+    <circle cx="450" cy="250" r="280" stroke="#f87171" stroke-opacity="0.5"/>
+  </g>
+
+  <!-- perimeter fence -->
+  <line x1="170" y1="250" x2="170" y2="330" stroke="#8b9892" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="730" y1="250" x2="730" y2="330" stroke="#8b9892" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="170" y="245" font-size="9" fill="#8b9892" text-anchor="middle">FENCE</text>
+  <text x="730" y="245" font-size="9" fill="#8b9892" text-anchor="middle">FENCE</text>
+
+  <!-- attackers -->
+  <g text-anchor="middle">
+    <circle cx="250" cy="300" r="7" fill="#fbbf24"/>
+    <text x="250" y="325" font-size="10" fill="#fbbf24">parking lot</text>
+
+    <circle cx="690" cy="300" r="7" fill="#fbbf24"/>
+    <text x="690" y="325" font-size="10" fill="#fbbf24">next unit</text>
+
+    <!-- drone -->
+    <g transform="translate(715,110)">
+      <line x1="-18" y1="-10" x2="18" y2="10" stroke="#f87171" stroke-width="2"/>
+      <line x1="18" y1="-10" x2="-18" y2="10" stroke="#f87171" stroke-width="2"/>
+      <circle cx="-18" cy="-10" r="5" fill="#2a1316" stroke="#f87171"/>
+      <circle cx="18" cy="-10" r="5" fill="#2a1316" stroke="#f87171"/>
+      <circle cx="-18" cy="10" r="5" fill="#2a1316" stroke="#f87171"/>
+      <circle cx="18" cy="10" r="5" fill="#2a1316" stroke="#f87171"/>
+      <rect x="-8" y="-5" width="16" height="10" rx="2" fill="#f87171"/>
+    </g>
+    <text x="715" y="140" font-size="10" fill="#f87171">drone on the roof</text>
+  </g>
+
+  <g font-size="11" text-anchor="start">
+    <circle cx="610" cy="366" r="5" fill="#3ee08a"/>
+    <text x="624" y="370" fill="#8b9892">intended coverage</text>
+    <circle cx="610" cy="388" r="5" fill="#fbbf24"/>
+    <text x="624" y="392" fill="#8b9892">leaks past the fence</text>
+    <circle cx="610" cy="410" r="5" fill="#f87171"/>
+    <text x="624" y="414" fill="#8b9892">reachable by a patient attacker</text>
+  </g>
+
+  <text x="250" y="395" font-size="11" fill="#8b9892" text-anchor="middle">A $15k drone or a long antenna</text>
+  <text x="250" y="412" font-size="11" fill="#8b9892" text-anchor="middle">reaches what guards never see.</text>
+</svg>
