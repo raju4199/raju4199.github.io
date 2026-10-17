@@ -39,15 +39,21 @@ const current = [...timeline].reverse().find((t) => t.type === 'work' && t.end =
 
     {
       pillars.length > 0 && (
-        <div class="stagger grid gap-4 md:grid-cols-3">
+        <div class="stagger grid gap-5 md:grid-cols-3">
           {pillars.map((pillar, i) => (
             <div style={`--i:${i}`} class="flex">
-              <SpotlightCard client:visible className="w-full bg-surface/80 backdrop-blur">
-                <span class="grid size-11 place-items-center rounded-xl border border-accent/25 bg-accent-soft text-accent">
-                  <Icon name={pillar.icon} class="size-5" />
-                </span>
+              <SpotlightCard client:visible className="group/card h-full w-full bg-surface/80 p-7 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-accent/50 hover:shadow-xl hover:shadow-accent/5">
+                <div class="flex items-start justify-between">
+                  <span class="grid size-12 place-items-center rounded-2xl border border-accent/25 bg-gradient-to-br from-accent-soft to-transparent text-accent shadow-sm transition-all duration-300 group-hover/card:scale-110 group-hover/card:border-accent/50">
+                    <Icon name={pillar.icon} class="size-5" />
+                  </span>
+                  <span class="font-mono text-2xl font-bold text-muted/15 transition-colors group-hover/card:text-accent/25">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                </div>
                 <h3 class="glow-text mt-5 text-lg font-semibold tracking-tight">{pillar.title}</h3>
-                <p class="glow-text mt-2 leading-relaxed text-muted text-pretty">{pillar.text}</p>
+                <span class="mt-3 block h-0.5 w-9 rounded-full bg-gradient-to-r from-accent to-transparent transition-all duration-300 group-hover/card:w-14" />
+                <p class="glow-text mt-3 leading-relaxed text-muted text-pretty">{pillar.text}</p>
               </SpotlightCard>
             </div>
           ))}
