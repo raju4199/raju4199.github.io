@@ -42,7 +42,7 @@
 
   <rect x="150" y="226" width="600" height="60" rx="10" fill="#1a1710" stroke="#fbbf24"/>
   <text x="450" y="252" font-size="12" fill="#fbbf24" text-anchor="middle">CVE-2017-13077 and friends. The bug was in the Wi-Fi standard itself,</text>
-  <text x="450" y="272" font-size="12" fill="#e3ebe7" text-anchor="middle">so every WPA2 device was affected until patched — including OT gear that never gets patched.</text>
+  <text x="450" y="272" font-size="12" fill="#e3ebe7" text-anchor="middle">so every WPA2 device was affected until patched - including OT gear that never gets patched.</text>
 
   <text x="450" y="322" font-size="11" fill="#8b9892" text-anchor="middle">A strong Wi-Fi password does not help here. The weakness is in the handshake, not the password.</text>
 </svg>

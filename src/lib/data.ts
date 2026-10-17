@@ -182,5 +182,5 @@ export function formatYearMonth(value: string): string {
 
 export function formatRange(start: string, end?: string): string {
   if (!end) return formatYearMonth(start);
-  return `${formatYearMonth(start)} — ${end === 'present' ? 'Present' : formatYearMonth(end)}`;
+  return `${formatYearMonth(start)} - ${end === 'present' ? 'Present' : formatYearMonth(end)}`;
 }

@@ -7,7 +7,7 @@
 
 - title: AirSniffer
   description: >-
-    A single Bash console for a whole Wi-Fi engagement — discover and audit WEP,
+    A single Bash console for a whole Wi-Fi engagement - discover and audit WEP,
     WPA/WPA2, WPA3-SAE and WPS, run the deauth → handshake capture → offline crack
     chain, and stand up a vendor-matched evil twin. Authorized testing only.
   tags: [Wi-Fi Security, Bash, Red Team]
