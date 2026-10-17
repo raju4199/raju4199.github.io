@@ -1,11 +1,12 @@
 ---
+import { Image } from 'astro:assets';
 import type { Post } from '@/lib/blog';
 import { formatDate, tagSlug } from '@/lib/blog';
 import Icon from '@/components/Icon.astro';
 
 interface Props {
   post: Post;
-  variant?: 'card' | 'row';
+  variant?: 'card' | 'feature' | 'row';
 }
 
 const { post, variant = 'card' } = Astro.props;
@@ -13,60 +14,105 @@ const href = `/blog/${post.slug}/`;
 ---
 
 {
-  variant === 'card' ? (
-    <article class="card group relative flex h-full flex-col p-6 transition-colors hover:border-accent/50">
-      <div class="flex items-center gap-3 font-mono text-xs text-muted">
-        <time datetime={post.date.toISOString()}>{formatDate(post.date, 'short')}</time>
-        <span aria-hidden="true">·</span>
-        <span>{post.minutes} min read</span>
-        {post.draft && <span class="rounded bg-amber-500/15 px-1.5 text-amber-500">draft</span>}
-      </div>
-      <h3 class="mt-3 text-lg font-semibold text-balance transition-colors group-hover:text-accent">
-        <a href={href} class="after:absolute after:inset-0">
-          {post.title}
-        </a>
-      </h3>
-      <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">{post.description}</p>
-      {post.tags.length > 0 && (
-        <ul class="mt-auto flex flex-wrap gap-2 pt-5 font-mono text-[11px] text-accent">
-          {post.tags.slice(0, 4).map((tag) => (
-            <li>#{tagSlug(tag)}</li>
-          ))}
-        </ul>
+  variant === 'feature' ? (
+    <article class="card group relative grid overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl hover:shadow-accent/5 lg:grid-cols-2">
+      {post.cover && (
+        <div class="relative overflow-hidden lg:order-last">
+          <Image
+            src={post.cover}
+            alt={post.coverAlt ?? ''}
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            class="h-56 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 sm:h-72 lg:h-full lg:min-h-[22rem]"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-surface/60 via-transparent to-transparent lg:bg-gradient-to-r" />
+          <span class="absolute left-4 top-4 rounded-full bg-accent px-3 py-1 font-mono text-[11px] font-semibold text-accent-fg shadow-sm">
+            ★ Latest
+          </span>
+        </div>
       )}
-    </article>
-  ) : (
-    <article class="group relative grid gap-2 border-b border-border py-7 sm:grid-cols-[9rem_1fr] sm:gap-8">
-      <div class="font-mono text-xs text-muted sm:pt-1.5">
-        <time datetime={post.date.toISOString()}>{formatDate(post.date, 'short')}</time>
-      </div>
-      <div>
-        <h2 class="text-xl font-semibold text-balance transition-colors group-hover:text-accent">
-          <a href={href} class="after:absolute after:inset-0">
-            {post.title}
-          </a>
-          {post.draft && (
-            <span class="ml-2 rounded bg-amber-500/15 px-1.5 align-middle font-mono text-xs text-amber-500">draft</span>
-          )}
-        </h2>
-        <p class="mt-2 leading-relaxed text-muted">{post.description}</p>
-        <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs text-muted">
+      <div class="flex flex-col justify-center gap-4 p-7 sm:p-9">
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-muted">
+          <time datetime={post.date.toISOString()}>{formatDate(post.date, 'short')}</time>
+          <span aria-hidden="true" class="text-border">/</span>
           <span class="inline-flex items-center gap-1.5">
             <Icon name="lucide:clock" class="size-3.5" />
             {post.minutes} min read
           </span>
-          {post.tags.length > 0 && (
-            <ul class="relative z-10 flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <li>
-                  <a href={`/blog/tags/${tagSlug(tag)}/`} class="text-accent hover:underline">
-                    #{tagSlug(tag)}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          {post.category && (
+            <span class="rounded-full border border-accent/40 px-2.5 py-0.5 text-accent">{post.category}</span>
+          )}
+          {post.draft && <span class="rounded bg-amber-500/15 px-1.5 text-amber-500">draft</span>}
+        </div>
+        <h2 class="text-2xl font-bold text-balance transition-colors group-hover:text-accent sm:text-3xl">
+          <a href={href} class="after:absolute after:inset-0">
+            {post.title}
+          </a>
+        </h2>
+        <p class="line-clamp-3 leading-relaxed text-muted">{post.description}</p>
+        {post.tags.length > 0 && (
+          <ul class="relative z-10 flex flex-wrap gap-2 font-mono text-[11px]">
+            {post.tags.slice(0, 5).map((tag) => (
+              <li>
+                <a href={`/blog/tags/${tagSlug(tag)}/`} class="rounded-full bg-surface-2 px-2.5 py-1 text-accent transition-colors hover:bg-accent hover:text-accent-fg">
+                  #{tagSlug(tag)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+        <span class="mt-1 inline-flex items-center gap-1.5 font-mono text-sm font-medium text-accent">
+          Read post
+          <Icon name="lucide:arrow-right" class="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+        </span>
+      </div>
+    </article>
+  ) : (
+    <article class="card group relative flex h-full flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl hover:shadow-accent/5">
+      {post.cover && (
+        <div class="relative overflow-hidden">
+          <Image
+            src={post.cover}
+            alt={post.coverAlt ?? ''}
+            widths={[400, 800]}
+            sizes="(min-width: 640px) 50vw, 100vw"
+            class="h-44 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 sm:h-48"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-surface/70 to-transparent" />
+          {post.category && (
+            <span class="absolute left-3 top-3 rounded-full bg-surface/90 px-2.5 py-0.5 font-mono text-[11px] text-accent ring-1 ring-border backdrop-blur">
+              {post.category}
+            </span>
           )}
         </div>
+      )}
+      <div class="flex flex-1 flex-col p-6">
+        <div class="flex items-center gap-3 font-mono text-xs text-muted">
+          <time datetime={post.date.toISOString()}>{formatDate(post.date, 'short')}</time>
+          <span aria-hidden="true" class="text-border">/</span>
+          <span class="inline-flex items-center gap-1.5">
+            <Icon name="lucide:clock" class="size-3.5" />
+            {post.minutes} min read
+          </span>
+          {post.draft && <span class="rounded bg-amber-500/15 px-1.5 text-amber-500">draft</span>}
+        </div>
+        <h3 class="mt-3 text-lg font-semibold text-balance transition-colors group-hover:text-accent">
+          <a href={href} class="after:absolute after:inset-0">
+            {post.title}
+          </a>
+        </h3>
+        <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">{post.description}</p>
+        {post.tags.length > 0 && (
+          <ul class="relative z-10 mt-auto flex flex-wrap gap-2 pt-5 font-mono text-[11px]">
+            {post.tags.slice(0, 4).map((tag) => (
+              <li>
+                <a href={`/blog/tags/${tagSlug(tag)}/`} class="rounded-full bg-surface-2 px-2.5 py-1 text-accent transition-colors hover:bg-accent hover:text-accent-fg">
+                  #{tagSlug(tag)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </article>
   )

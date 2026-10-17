@@ -23,10 +23,15 @@ const tags = getTags(posts);
 
     {
       posts.length > 0 ? (
-        <div class="mt-6">
-          {posts.map((post) => (
-            <PostCard post={post} variant="row" />
-          ))}
+        <div class="mt-8 space-y-6">
+          <PostCard post={posts[0]} variant="feature" />
+          {posts.length > 1 && (
+            <div class="grid gap-6 sm:grid-cols-2">
+              {posts.slice(1).map((post) => (
+                <PostCard post={post} variant="card" />
+              ))}
+            </div>
+          )}
         </div>
       ) : (
         <p class="mt-10 font-mono text-muted">No posts yet. Add a Markdown file to src/content/blog/.</p>

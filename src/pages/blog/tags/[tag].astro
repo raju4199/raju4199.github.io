@@ -30,8 +30,8 @@ const { tag, tags, posts } = Astro.props;
   />
   <div class="container-page py-10">
     <TagCloud tags={tags} active={tag.slug} />
-    <div class="mt-6">
-      {posts.map((post) => <PostCard post={post} variant="row" />)}
+    <div class="mt-8 grid gap-6 sm:grid-cols-2">
+      {posts.map((post) => <PostCard post={post} variant="card" />)}
     </div>
   </div>
 </BaseLayout>
