@@ -4,10 +4,10 @@ description: "A visual deep-dive into the 9-step agent pipeline - from user prom
 date: 2026-10-26
 tags: [AI Security, Agentic AI, Prompt Injection, OWASP LLM, Red Teaming]
 category: Research
+cover: ../../assets/blog/agentic-ai-cover.png
+coverAlt: "Architecture diagram of an agentic AI system showing the flow from user to LLM to tools to data sources, with red risk badges marking attack surfaces at each layer"
 draft: false
 ---
-
-<img src="/images/agentic-ai-cover.svg" alt="Architecture diagram of an agentic AI system showing the flow from user to LLM to tools to data sources, with red risk badges marking attack surfaces at each layer" class="w-full rounded-2xl border border-border" />
 
 A traditional chatbot takes input, generates output - that's it. An AI agent is fundamentally different. It operates in an autonomous loop: it reads your email, decides it needs to check your order database, runs a SQL query, reads the result, decides it needs more context, fetches a web page - all without asking you. Each iteration gives the LLM new data and new decisions to make.
 
