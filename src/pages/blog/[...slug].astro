@@ -524,4 +524,11 @@ const jsonLd = {
       setTimeout(() => copy.classList.remove('text-accent'), 1600);
     } catch {}
   });
+
+  // Load interactive blog widgets (e.g. the agentic AI architecture diagram).
+  if (document.getElementById('aw-svg')) {
+    const s = document.createElement('script');
+    s.src = '/js/agentic-ai-widget.js';
+    document.body.appendChild(s);
+  }
 </script>
